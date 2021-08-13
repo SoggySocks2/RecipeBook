@@ -4,6 +4,7 @@ using RecipeBook.ApiGateway.Api.Features.UserAccount.Contracts;
 using RecipeBook.ApiGateway.Api.Features.UserAccount.Models;
 using RecipeBook.CoreApp.Api.Features.UserAccount.Contracts;
 using RecipeBook.CoreApp.Api.Features.UserAccount.Models;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,11 +33,18 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccount.Proxies
             return token;
         }
 
-        public async Task<ExistingUserAccountModel> GetByIdAsync(System.Guid id, Cancell ationToken cancellationToken)
+        public async Task<ExistingUserAccountModel> GetByIdAsync(System.Guid id, CancellationToken cancellationToken)
         {
             var userAccount = await _userAccountService.GetByIdAsync(id, cancellationToken);
 
             return _mapper.Map<ExistingUserAccountModel>(userAccount);
+        }
+
+        public async Task<List<ExistingUserAccountModel>> GetListAsync(CancellationToken cancellationToken)
+        {
+            var userAccounts = await _userAccountService.GetListAsync(cancellationToken);
+
+           return _mapper.Map<List<ExistingUserAccountModel>>(userAccounts);
         }
     }
 }

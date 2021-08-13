@@ -3,6 +3,7 @@ using RecipeBook.CoreApp.Domain.Account;
 using RecipeBook.CoreApp.Domain.Account.Contracts;
 using RecipeBook.SharedKernel.CustomExceptions;
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
@@ -103,6 +104,14 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.Account
 
             using var rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, saltBytes, nIterations);
             return Convert.ToBase64String(rfc2898DeriveBytes.GetBytes(nHash));
+        }
+
+        public async Task<List<UserAccount>> GetListAsync(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return await _dbContext.UserAccounts
+                .ToListAsync(cancellationToken);
         }
     }
 }

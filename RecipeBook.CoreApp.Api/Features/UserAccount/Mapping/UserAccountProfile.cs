@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RecipeBook.CoreApp.Api.Features.UserAccount.Models;
+using System.Collections.Generic;
 
 namespace RecipeBook.CoreApp.Api.Features.UserAccount.Mapping
 {

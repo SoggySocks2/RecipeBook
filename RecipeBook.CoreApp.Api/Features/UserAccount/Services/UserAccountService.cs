@@ -5,6 +5,7 @@ using RecipeBook.CoreApp.Api.Features.UserAccount.Models;
 using RecipeBook.CoreApp.Domain.Account.Contracts;
 using RecipeBook.SharedKernel.CustomExceptions;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -105,6 +106,13 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccount.Services
             }
 
             return _mapper.Map<UserAccountDto>(userAccount);
+        }
+
+        public async Task<List<UserAccountDto>> GetListAsync(CancellationToken cancellationToken)
+        {
+            var userAccounts = await _userAccountRepository.GetListAsync(cancellationToken);
+
+            return _mapper.Map<List<UserAccountDto>>(userAccounts);
         }
     }
 }

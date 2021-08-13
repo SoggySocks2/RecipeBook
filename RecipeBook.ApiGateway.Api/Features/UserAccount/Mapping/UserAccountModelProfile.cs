@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using RecipeBook.ApiGateway.Api.Features.UserAccount.Models;
 using RecipeBook.CoreApp.Api.Features.UserAccount.Models;
+using System.Collections.Generic;
 
 namespace RecipeBook.ApiGateway.Api.Features.UserAccount.Mapping
 {
@@ -9,7 +10,6 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccount.Mapping
         public UserAccountModelProfile()
         {
             CreateMap<AuthModel, AuthDto>();
-            //CreateMap<CoreApp.Domain.Account.UserAccount, ExistingUserAccountModel>();
             CreateMap<UserAccountDto, ExistingUserAccountModel>();
         }
     }
