@@ -60,6 +60,7 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.Account
 
             if (string.IsNullOrWhiteSpace(userName)) throw new EmptyInputException($"{nameof(userName)} is required");
             if (string.IsNullOrWhiteSpace(password)) throw new EmptyInputException($"{nameof(password)} is required");
+            if (string.IsNullOrWhiteSpace(salt)) throw new EmptyInputException($"{nameof(salt)} is required");
 
             var hashedPassword = HashPassword(password, salt);
             var userAccount = await _dbContext.UserAccounts.SingleOrDefaultAsync(x => x.Username == userName && x.Password == hashedPassword, cancellationToken);
@@ -67,7 +68,7 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.Account
             if (userAccount == default)
             {
                 //Authentication failed
-                throw new AuthenticationException("Authentication failed");
+                throw new AuthenticateException("Authentication failed");
             }
 
             return userAccount;

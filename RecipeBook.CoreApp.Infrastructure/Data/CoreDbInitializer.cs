@@ -40,7 +40,7 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
 
         private async Task SeedUserAccount()
         {
-            if (await _dbContext.UserAccounts.CountAsync() == 0)
+            if (await _dbContext.UserAccounts.AnyAsync())
             {
                 _dbContext.UserAccounts.AddRange(UserAccountSeed.GetUserAccounts("Firstname_", "Lastname_", "Username_", "Password_"));
                 await _dbContext.SaveChangesAsync();

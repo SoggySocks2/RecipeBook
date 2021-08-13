@@ -7,7 +7,7 @@ namespace RecipeBook.CoreApp.Domain.Account
     /// <summary>
     /// Represents an authenticated user
     /// </summary>
-    public class UserAccount /* : IUserAccount */
+    public class UserAccount : IUserAccount 
     {
         public Guid Id { get; private set; }
         public string Firstname { get; private set; }
