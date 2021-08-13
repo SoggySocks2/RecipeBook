@@ -16,6 +16,8 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.Account.Configuration
             builder.Property(x => x.Password).HasMaxLength(30);
             builder.Property(x => x.Role).HasMaxLength(50);
 
+            builder.Property(x => x.IsDeleted).HasDefaultValue(false);
+
             builder.HasKey(x => x.Id);
         }
     }

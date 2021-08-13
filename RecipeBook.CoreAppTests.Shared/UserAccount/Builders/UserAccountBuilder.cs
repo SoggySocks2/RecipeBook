@@ -1,5 +1,4 @@
-﻿using RecipeBook.SharedKernel.Contracts;
-using System;
+﻿using System;
 
 namespace RecipeBook.CoreAppTests.Shared.UserAccount.Builders
 {
@@ -52,7 +51,7 @@ namespace RecipeBook.CoreAppTests.Shared.UserAccount.Builders
             Role = role;
             return this;
         }
-        public IUserAccount Build()
+        public CoreApp.Domain.Account.UserAccount Build()
         {
             var userAcount = new CoreApp.Domain.Account.UserAccount(Firstname, Lastname, Username, Password, Role);
             userAcount.GetType().GetProperty("Id").SetValue(userAcount, Id);

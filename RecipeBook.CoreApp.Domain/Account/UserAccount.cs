@@ -1,15 +1,13 @@
-﻿using RecipeBook.SharedKernel.Contracts;
+﻿using RecipeBook.SharedKernel.BaseClasses;
 using RecipeBook.SharedKernel.CustomExceptions;
-using System;
 
 namespace RecipeBook.CoreApp.Domain.Account
 {
     /// <summary>
     /// Represents an authenticated user
     /// </summary>
-    public class UserAccount : IUserAccount 
+    public class UserAccount : BaseEntity
     {
-        public Guid Id { get; private set; }
         public string Firstname { get; private set; }
         public string Lastname { get; private set; }
         public string Username { get; private set; }
