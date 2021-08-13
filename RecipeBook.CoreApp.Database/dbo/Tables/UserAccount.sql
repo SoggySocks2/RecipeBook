@@ -5,7 +5,7 @@
     [Username]  NVARCHAR (50)    NOT NULL,
     [Password]  NVARCHAR (30)    NOT NULL,
     [Role]      NVARCHAR (50)    NOT NULL,
-    [IsActive]  BIT              NOT NULL DEFAULT 1,
+    [IsDeleted]  BIT              NOT NULL DEFAULT 1,
     CONSTRAINT [PK_UserAccount] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 

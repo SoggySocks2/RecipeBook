@@ -8,6 +8,7 @@
     [Created]       DATETIME         NOT NULL,
     [ModifiedBy]    UNIQUEIDENTIFIER NOT NULL,
     [Modified]      DATETIME         NOT NULL,
+    [IsDeleted] BIT NULL, 
     CONSTRAINT [PK_Ingredient] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Ingredient_Recipe] FOREIGN KEY ([RecipeId]) REFERENCES [dbo].[Recipe] ([Id]),
     CONSTRAINT [FK_Ingredient_UserAccount_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[UserAccount] ([Id]),
