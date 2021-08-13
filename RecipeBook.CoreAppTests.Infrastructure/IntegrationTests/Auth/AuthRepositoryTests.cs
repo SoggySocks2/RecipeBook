@@ -15,7 +15,7 @@ namespace RecipeBook.CoreAppTests.Infrastructure.IntegrationTests.Auth
     public class AuthRepositoryTests
     {
         private readonly CoreDbContext _dbContext;
-        private readonly IAuthRepository _authRepo;
+        private readonly IUserAccountRepository _authRepo;
         private const string _salt = "MDxNyrhRlHee7I0CTW9fzVk=";
 
         public AuthRepositoryTests()
@@ -26,7 +26,7 @@ namespace RecipeBook.CoreAppTests.Infrastructure.IntegrationTests.Auth
                 .Options;
 
             _dbContext = new CoreDbContext(dbOptions);
-            _authRepo = new AuthRepository(_dbContext);
+            _authRepo = new UserAccountRepository(_dbContext);
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace RecipeBook.CoreAppTests.Infrastructure.IntegrationTests.Auth
                                     .WithTestValues()
                                     .Build();
 
-            var id = await _authRepo.AddAsync(testUserAccount.Firstname, testUserAccount.Lastname, testUserAccount.Username, testUserAccount.Password, _salt, CancellationToken.None);
+            var id = await _authRepo.AddAsync(testUserAccount.Firstname, testUserAccount.Lastname, testUserAccount.Username, testUserAccount.Password, testUserAccount.Role, _salt, CancellationToken.None);
 
             id.Should().NotBe(Guid.Empty);
 

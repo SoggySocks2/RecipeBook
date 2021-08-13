@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace RecipeBook.CoreApp.Infrastructure.Data.Account
 {
-    public class AuthRepository : IAuthRepository
+    public class UserAccountRepository : IUserAccountRepository
     {
         private readonly CoreDbContext _dbContext;
 
-        public AuthRepository(CoreDbContext dbContext)
+        public UserAccountRepository(CoreDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -27,7 +27,7 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.Account
         /// <param name="password">Authentication password</param>
         /// <param name="salt">Salt used to hash the authentication password</param>
         /// <returns>Id the of the new user account</returns>
-        public async Task<Guid> AddAsync(string firstName, string lastName, string userName, string password, string salt, CancellationToken cancellationToken)
+        public async Task<Guid> AddAsync(string firstName, string lastName, string userName, string password, string role, string salt, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -35,11 +35,12 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.Account
             if (string.IsNullOrWhiteSpace(lastName)) throw new EmptyInputException($"{nameof(lastName)} is null or empty");
             if (string.IsNullOrWhiteSpace(userName)) throw new EmptyInputException($"{nameof(userName)} is null or empty");
             if (string.IsNullOrWhiteSpace(password)) throw new EmptyInputException($"{nameof(password)} is null or empty");
+            if (string.IsNullOrWhiteSpace(role)) throw new EmptyInputException($"{nameof(role)} is null or empty");
             if (string.IsNullOrWhiteSpace(salt)) throw new EmptyInputException($"{nameof(salt)} is null or empty");
 
             var hashedPassword = HashPassword(password, salt);
 
-            var userAccount = new UserAccount(firstName, lastName, userName, hashedPassword);
+            var userAccount = new UserAccount(firstName, lastName, userName, hashedPassword, role);
             await _dbContext.AddAsync(userAccount, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
@@ -63,7 +64,8 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.Account
             if (string.IsNullOrWhiteSpace(salt)) throw new EmptyInputException($"{nameof(salt)} is required");
 
             var hashedPassword = HashPassword(password, salt);
-            var userAccount = await _dbContext.UserAccounts.SingleOrDefaultAsync(x => x.Username == userName && x.Password == hashedPassword, cancellationToken);
+            //var userAccount = await _dbContext.UserAccounts.SingleOrDefaultAsync(x => x.Username == userName && x.Password == hashedPassword, cancellationToken);
+            var userAccount = await _dbContext.UserAccounts.FirstOrDefaultAsync(x => x.Username == userName && x.Password == hashedPassword, cancellationToken);
 
             if (userAccount == default)
             {

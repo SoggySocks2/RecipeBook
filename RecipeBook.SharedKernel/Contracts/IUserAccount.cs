@@ -9,5 +9,6 @@ namespace RecipeBook.SharedKernel.Contracts
         string Lastname { get; }
         string Username { get; }
         string Password { get; }
+        string Role { get; }
     }
 }

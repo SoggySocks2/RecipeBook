@@ -10,6 +10,7 @@ namespace RecipeBook.CoreAppTests.Shared.UserAccount.Builders
         private string Lastname { get; set; }
         private string Username { get; set; }
         private string Password { get; set; }
+        private string Role { get; set; }
 
         public UserAccountBuilder WithTestValues()
         {
@@ -18,6 +19,7 @@ namespace RecipeBook.CoreAppTests.Shared.UserAccount.Builders
             Lastname = "Test Lastname";
             Username = "Test Username";
             Password = "Test Password";
+            Role = "Admin";
             return this;
         }
         public UserAccountBuilder WithId(Guid id)
@@ -40,14 +42,19 @@ namespace RecipeBook.CoreAppTests.Shared.UserAccount.Builders
             Username = username;
             return this;
         }
-        public UserAccountBuilder WithPassword(string password)
+        public UserAccountBuilder WithPassword(string password, string salt)
         {
-            Password = password;
+            Password = CoreApp.Infrastructure.Data.Account.UserAccountRepository.HashPassword(password, salt);
+            return this;
+        }
+        public UserAccountBuilder WithRole(string role)
+        {
+            Role = role;
             return this;
         }
         public IUserAccount Build()
         {
-            var userAcount = new CoreApp.Domain.Account.UserAccount(Firstname, Lastname, Username, Password);
+            var userAcount = new CoreApp.Domain.Account.UserAccount(Firstname, Lastname, Username, Password, Role);
             userAcount.GetType().GetProperty("Id").SetValue(userAcount, Id);
 
             return userAcount;

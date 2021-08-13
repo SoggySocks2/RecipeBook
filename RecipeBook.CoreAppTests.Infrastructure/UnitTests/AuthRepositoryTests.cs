@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using RecipeBook.CoreApp.Domain.Account.Contracts;
 using RecipeBook.CoreApp.Infrastructure.Data;
 using RecipeBook.CoreApp.Infrastructure.Data.Account;
-using RecipeBook.CoreAppTests.Shared.UserAccount.Builders;
 using RecipeBook.SharedKernel.CustomExceptions;
 using System;
 using System.Threading;
@@ -15,7 +14,7 @@ namespace RecipeBook.CoreAppTests.Infrastructure.UnitTests
     public class AuthRepositoryTests
     {
         private readonly CoreDbContext _dbContext;
-        private readonly IAuthRepository _authRepo;
+        private readonly IUserAccountRepository _authRepo;
 
         private readonly string _userName = $"Test Username {Guid.NewGuid()}";
         private readonly string _password = Guid.NewGuid().ToString();
@@ -28,7 +27,7 @@ namespace RecipeBook.CoreAppTests.Infrastructure.UnitTests
                 .Options;
 
             _dbContext = new CoreDbContext(dbOptions);
-            _authRepo = new AuthRepository(_dbContext);
+            _authRepo = new UserAccountRepository(_dbContext);
         }
 
         [Fact]
