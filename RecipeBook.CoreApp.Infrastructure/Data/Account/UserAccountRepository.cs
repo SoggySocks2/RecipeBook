@@ -77,6 +77,18 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.Account
         }
 
         /// <summary>
+        /// Get a specific user account
+        /// </summary>
+        /// <param name="id">User account id</param>
+        /// <returns>User account</returns>
+        public async Task<UserAccount> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return await _dbContext.UserAccounts
+                .SingleOrDefaultAsync(c => c.Id == id, cancellationToken);
+        }
+
+        /// <summary>
         /// Create a one way hashed password
         /// </summary>
         /// <param name="password">Password to hash</param>

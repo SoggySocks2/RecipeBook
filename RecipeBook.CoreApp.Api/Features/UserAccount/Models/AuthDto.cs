@@ -1,4 +1,4 @@
-﻿namespace RecipeBook.CoreApp.Api.Features.Models
+﻿namespace RecipeBook.CoreApp.Api.Features.UserAccount.Models
 {
     public class AuthDto
     {

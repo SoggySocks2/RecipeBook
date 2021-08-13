@@ -8,5 +8,6 @@ namespace RecipeBook.CoreApp.Domain.Account.Contracts
     {
         Task<UserAccount> AuthenticateAsync(string username, string password, string salt, CancellationToken cancellationToken);
         Task<Guid> AddAsync(string firstname, string lastname, string username, string password, string role, string salt, CancellationToken cancellationToken);
+        Task<UserAccount> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
-using RecipeBook.CoreApp.Api.Features.Models;
 using RecipeBook.CoreApp.Api.Features.UserAccount.Contracts;
+using RecipeBook.CoreApp.Api.Features.UserAccount.Models;
 using RecipeBook.CoreApp.Domain.Account.Contracts;
 using RecipeBook.SharedKernel.CustomExceptions;
 using System;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RecipeBook.CoreApp.Api.Features.Services
+namespace RecipeBook.CoreApp.Api.Features.UserAccount.Services
 {
     public class UserAccountService : IUserAccountService
     {
@@ -88,6 +88,23 @@ namespace RecipeBook.CoreApp.Api.Features.Services
             var tokenString = tokenHandler.WriteToken(token);
 
             return tokenString;
+        }
+
+        public async Task<UserAccountDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            if (id == Guid.Empty)
+            {
+                throw new EmptyInputException($"{nameof(id)} is requried");
+            }
+
+            var userAccount = await _userAccountRepository.GetByIdAsync(id, cancellationToken);
+
+            if (userAccount is null || userAccount.Id == Guid.Empty)
+            {
+                throw new NotFoundException("User account not found");
+            }
+
+            return _mapper.Map<UserAccountDto>(userAccount);
         }
     }
 }

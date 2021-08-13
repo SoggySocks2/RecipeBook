@@ -36,7 +36,6 @@ namespace RecipeBook.ApiGateway.Api
             services.AddApplicationInsightsTelemetry();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.AddScoped<IUserAccount, UserAccount>();
 
             services.AddSwaggerGen(c =>
             {

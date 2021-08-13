@@ -8,11 +8,6 @@ namespace RecipeBook.ApiGateway.Api
 {
     public class Program
     {
-        //public static void Main(string[] args)
-        //{
-        //    CreateHostBuilder(args).Build().Run();
-        //}
-
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
