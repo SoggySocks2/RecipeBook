@@ -16,19 +16,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{781E5943-7AB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0C7DE699-5599-44C9-A95E-3A3F3E636598}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeBook.CoreAppTests.Shared", "RecipeBook.CoreAppTests.Shared\RecipeBook.CoreAppTests.Shared.csproj", "{C25A08CF-B4DD-4178-AF12-4FEDF1D582A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeBook.CoreAppTests.Shared", "RecipeBook.CoreAppTests.Shared\RecipeBook.CoreAppTests.Shared.csproj", "{C25A08CF-B4DD-4178-AF12-4FEDF1D582A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeBook.CoreAppTests.Infrastructure", "RecipeBook.CoreAppTests.Infrastructure\RecipeBook.CoreAppTests.Infrastructure.csproj", "{5665BD1F-FDC1-4123-93F8-11DC8DBB434B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeBook.CoreAppTests.Infrastructure", "RecipeBook.CoreAppTests.Infrastructure\RecipeBook.CoreAppTests.Infrastructure.csproj", "{5665BD1F-FDC1-4123-93F8-11DC8DBB434B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeBook.CoreAppTests.Domain", "RecipeBook.CoreAppTests.Domain\RecipeBook.CoreAppTests.Domain.csproj", "{3C5579E7-1DEB-4B2D-B2FE-5DE7377E75B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeBook.CoreAppTests.Domain", "RecipeBook.CoreAppTests.Domain\RecipeBook.CoreAppTests.Domain.csproj", "{3C5579E7-1DEB-4B2D-B2FE-5DE7377E75B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeBook.CoreAppTests.Api", "RecipeBook.CoreAppTests.Api\RecipeBook.CoreAppTests.Api.csproj", "{1340A2B2-8FBE-43BF-A40E-918E4B125F4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeBook.CoreAppTests.Api", "RecipeBook.CoreAppTests.Api\RecipeBook.CoreAppTests.Api.csproj", "{1340A2B2-8FBE-43BF-A40E-918E4B125F4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeBook.CoreApp.Infrastructure", "RecipeBook.CoreApp.Infrastructure\RecipeBook.CoreApp.Infrastructure.csproj", "{2D319E33-DD1B-415C-B3CE-ABD23DFDCF51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeBook.CoreApp.Infrastructure", "RecipeBook.CoreApp.Infrastructure\RecipeBook.CoreApp.Infrastructure.csproj", "{2D319E33-DD1B-415C-B3CE-ABD23DFDCF51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeBook.CoreApp.Domain", "RecipeBook.CoreApp.Domain\RecipeBook.CoreApp.Domain.csproj", "{6A4514C4-CBE5-4358-ABA1-40FC53EBE77E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeBook.CoreApp.Domain", "RecipeBook.CoreApp.Domain\RecipeBook.CoreApp.Domain.csproj", "{6A4514C4-CBE5-4358-ABA1-40FC53EBE77E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeBook.CoreApp.Api", "RecipeBook.CoreApp.Api\RecipeBook.CoreApp.Api.csproj", "{0BE07F21-A037-4F0C-8F59-54CEC766AE30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeBook.CoreApp.Api", "RecipeBook.CoreApp.Api\RecipeBook.CoreApp.Api.csproj", "{0BE07F21-A037-4F0C-8F59-54CEC766AE30}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "RecipeBook.CoreApp.Database", "RecipeBook.CoreApp.Database\RecipeBook.CoreApp.Database.sqlproj", "{B394FB7C-EB82-4281-9DDA-61A549AAFE5E}"
 EndProject
@@ -36,21 +36,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{ECA37B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F11ABE89-AF8A-4BC1-B932-C011AF24D7A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeBook.SharedKernelTests", "RecipeBook.SharedKernelTests\RecipeBook.SharedKernelTests.csproj", "{7433B528-7E06-4F60-A8CE-71DE862BB3A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeBook.SharedKernelTests", "RecipeBook.SharedKernelTests\RecipeBook.SharedKernelTests.csproj", "{7433B528-7E06-4F60-A8CE-71DE862BB3A6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8669BB4E-CE41-487B-BD35-087AA04951F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeBook.SharedKernel", "RecipeBook.SharedKernel\RecipeBook.SharedKernel.csproj", "{9F227054-2E5C-4E08-A937-A8B191AD32F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeBook.SharedKernel", "RecipeBook.SharedKernel\RecipeBook.SharedKernel.csproj", "{9F227054-2E5C-4E08-A937-A8B191AD32F1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{A53E78F1-5DF2-46DD-B5FD-7F27B4D7A554}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A57EAA2A-0D0B-461A-9832-E6F501CD1094}"
+	ProjectSection(SolutionItems) = preProject
+		TextFile1.txt = TextFile1.txt
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeBook.ApiGatewayTests.Api", "RecipeBook.ApiGatewayTests.Api\RecipeBook.ApiGatewayTests.Api.csproj", "{50B5CA23-4E2C-4ECC-9033-734E8F34DD5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeBook.ApiGatewayTests.Api", "RecipeBook.ApiGatewayTests.Api\RecipeBook.ApiGatewayTests.Api.csproj", "{50B5CA23-4E2C-4ECC-9033-734E8F34DD5E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F6163CF8-C4BA-498E-AE3B-189BA94153F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeBook.ApiGateway.Api", "RecipeBook.ApiGateway.Api\RecipeBook.ApiGateway.Api.csproj", "{F6421D4B-C7F6-407C-8CDC-ED62268BE471}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeBook.ApiGateway.Api", "RecipeBook.ApiGateway.Api\RecipeBook.ApiGateway.Api.csproj", "{F6421D4B-C7F6-407C-8CDC-ED62268BE471}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
