@@ -8,7 +8,25 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Mapping
     {
         public UserAccountProfile()
         {
-            CreateMap<UserAccount, UserAccountDto>(MemberList.Source);
+            CreateMap<UserAccount, UserAccountDto>()
+                .IncludeMembers(x => x.Person);
+
+
+            CreateMap<Person, UserAccountDto>(MemberList.Source);
+
+            CreateMap<UserAccountDto, UserAccount>()
+                .ConvertUsing((source, dest, context) =>
+                    {
+                        var person = new Person(source.Firstname, source.Lastname);
+
+                        if (dest is UserAccount userAccount)
+                        {
+                            userAccount.UpdatePersonDetails(person);
+                            return userAccount;
+                        }
+
+                        return new UserAccount(person, source.Username, source.Password, source.Role);
+                    });
         }
     }
 }

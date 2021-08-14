@@ -4,6 +4,7 @@ using RecipeBook.ApiGateway.Api.Features.UserAccounts.Contracts;
 using RecipeBook.ApiGateway.Api.Features.UserAccounts.Models;
 using RecipeBook.CoreApp.Api.Features.UserAccounts.Contracts;
 using RecipeBook.CoreApp.Api.Features.UserAccounts.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,17 +24,15 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Proxies
             _userAccountService = authService;
         }
 
-        public async Task<string> AuthenticateAsync(AuthModel authModel, CancellationToken cancellationToken)
+        public async Task<ExistingUserAccountModel> AddAsync(NewUserAccountModel userAccount, CancellationToken cancellationToken)
         {
-            var salt = _configuration.GetValue<string>("Salt");
-            var encryptionKey = _configuration.GetValue<string>("JWTEncryptionKey");
+            var userAccountEntity = _mapper.Map<UserAccountDto>(userAccount);
+            var newUserAccount = await _userAccountService.AddAsync(userAccountEntity, cancellationToken);
 
-            var authDto = _mapper.Map<AuthDto>(authModel);
-            var token = await _userAccountService.AuthenticateAsync(salt, encryptionKey, authDto, cancellationToken);
-            return token;
+            return _mapper.Map<ExistingUserAccountModel>(newUserAccount);
         }
 
-        public async Task<ExistingUserAccountModel> GetByIdAsync(System.Guid id, CancellationToken cancellationToken)
+        public async Task<ExistingUserAccountModel> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var userAccount = await _userAccountService.GetByIdAsync(id, cancellationToken);
 
@@ -45,6 +44,16 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Proxies
             var userAccounts = await _userAccountService.GetListAsync(cancellationToken);
 
            return _mapper.Map<List<ExistingUserAccountModel>>(userAccounts);
+        }
+
+        public async Task<string> AuthenticateAsync(AuthenticationModel authenticationModel, CancellationToken cancellationToken)
+        {
+            //var salt = _configuration.GetValue<string>("Salt");
+            var encryptionKey = _configuration.GetValue<string>("JWTEncryptionKey");
+
+            var authDto = _mapper.Map<AuthenticationDto>(authenticationModel);
+            var token = await _userAccountService.AuthenticateAsync(encryptionKey, authDto, cancellationToken);
+            return token;
         }
     }
 }

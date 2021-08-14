@@ -5,7 +5,7 @@ namespace RecipeBook.SharedKernel.CustomExceptions
     public class BaseException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the CustomExceptions.NotFoundException class.
+        /// Initializes a new instance of the CustomException.XXX class.
         /// </summary>
         public BaseException()
         {
@@ -13,7 +13,7 @@ namespace RecipeBook.SharedKernel.CustomExceptions
         }
 
         /// <summary>
-        /// Initializes a new instance of the CustomExceptions.NotFoundException class with a specified error message.
+        /// Initializes a new instance of the CustomExceptions.XXX class with a specified error message.
         /// </summary>
         /// <param name="message">The error message that explains the reason for the exception.</param>
         public BaseException(string message) : base(message)
@@ -22,7 +22,7 @@ namespace RecipeBook.SharedKernel.CustomExceptions
         }
 
         /// <summary>
-        /// Initializes a new instance of the CustomExceptions.NotFoundException class with a specified error message and an inner exception.
+        /// Initializes a new instance of the CustomExceptions.XXX class with a specified error message and an inner exception.
         /// </summary>
         /// <param name="message">The error message that explains the reason for the exception.</param>
         /// <param name="innerException">The exception that triggered this exception.</param>

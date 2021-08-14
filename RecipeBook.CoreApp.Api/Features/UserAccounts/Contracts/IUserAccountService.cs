@@ -8,8 +8,9 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Contracts
 {
     public interface IUserAccountService
     {
-        Task<string> AuthenticateAsync(string salt, string jwtEncryptionKey, AuthDto authDto, CancellationToken cancellationToken = default);
+        Task<UserAccountDto> AddAsync(UserAccountDto userAccountDto, CancellationToken cancellationToken);
         Task<UserAccountDto> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task<List<UserAccountDto>> GetListAsync(CancellationToken cancellationToken);
+        Task<string> AuthenticateAsync(string jwtEncryptionKey, AuthenticationDto authenticationDto, CancellationToken cancellationToken = default);
     }
 }

@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[UserAccount] (
     [Id]            UNIQUEIDENTIFIER NOT NULL,
-    [Firstname]     NVARCHAR (30)    NOT NULL,
-    [Lastname]      NVARCHAR (50)    NOT NULL,
-    [Username]      NVARCHAR (50)    NOT NULL,
+    [FirstName]     NVARCHAR (30)    NOT NULL,
+    [LastName]      NVARCHAR (50)    NOT NULL,
+    [UserName]      NVARCHAR (50)    NOT NULL,
     [Password]      NVARCHAR (30)    NOT NULL,
     [Role]          NVARCHAR (50)    NOT NULL,
     [Created]       DATETIME         NOT NULL,

@@ -11,7 +11,8 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts.Seeds
 
             for (var i = 0; i < count; i++)
             {
-                var userAccount = new UserAccount($"{firstNamePrefix}{i + 1}", $"{lastNamePrefix}{i + 1}", $"{userNamePrefix}{i + 1}", hashedPpassword, role);
+                var person = new Person($"{firstNamePrefix}{i + 1}", $"{lastNamePrefix}{i + 1}");
+                var userAccount = new UserAccount(person, $"{userNamePrefix}{i + 1}", hashedPpassword, role);
 
                 userAccounts.Add(userAccount);
             }

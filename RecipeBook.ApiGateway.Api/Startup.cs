@@ -27,6 +27,7 @@ namespace RecipeBook.ApiGateway.Api
             services.AddJwtAuthentication(Configuration);
 
             services.AddScoped<IUserAccountProxy, UserAccountProxy>();
+
             services.AddCoreAppServices(Configuration);
 
             services.AddAutoMapper(typeof(Startup).Assembly);

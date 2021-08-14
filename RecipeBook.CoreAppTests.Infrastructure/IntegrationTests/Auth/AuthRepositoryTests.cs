@@ -16,7 +16,6 @@ namespace RecipeBook.CoreAppTests.Infrastructure.IntegrationTests.Auth
     {
         private readonly CoreDbContext _dbContext;
         private readonly IUserAccountRepository _authRepo;
-        private const string _salt = "MDxNyrhRlHee7I0CTW9fzVk=";
 
         public AuthRepositoryTests()
         {
@@ -34,7 +33,7 @@ namespace RecipeBook.CoreAppTests.Infrastructure.IntegrationTests.Auth
         {
             Func<Task> dataProvider = async () =>
             {
-                _ = await _authRepo.AuthenticateAsync("wrong", "password", _salt, CancellationToken.None);
+                _ = await _authRepo.AuthenticateAsync("wrong", "password", CancellationToken.None);
             };
 
             dataProvider.Should().Throw<AuthenticateException>()
@@ -48,15 +47,15 @@ namespace RecipeBook.CoreAppTests.Infrastructure.IntegrationTests.Auth
                                     .WithTestValues()
                                     .Build();
 
-            var id = await _authRepo.AddAsync(testUserAccount.Firstname, testUserAccount.Lastname, testUserAccount.Username, testUserAccount.Password, testUserAccount.Role, _salt, CancellationToken.None);
+            var id = await _authRepo.AddAsync(testUserAccount, CancellationToken.None);
 
             id.Should().NotBe(Guid.Empty);
 
-            var userAccount = await _authRepo.AuthenticateAsync(testUserAccount.Username, testUserAccount.Password, _salt, CancellationToken.None);
+            var userAccount = await _authRepo.AuthenticateAsync(testUserAccount.Username, testUserAccount.Password, CancellationToken.None);
 
             userAccount.Id.Should().NotBe(Guid.Empty);
-            userAccount.Firstname.Should().Be(testUserAccount.Firstname);
-            userAccount.Lastname.Should().Be(testUserAccount.Lastname);
+            userAccount.Person.FirstName.Should().Be(testUserAccount.Person.FirstName);
+            userAccount.Person.LastName.Should().Be(testUserAccount.Person.LastName);
         }
     }
 }

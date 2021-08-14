@@ -14,15 +14,16 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
-        private readonly IUserAccountProxy _userAccountProxy;
-        private readonly ILogWriter _logger;
+        private readonly IUserAccountProxy _proxy;
+        private readonly ILogWriter _logWriter;
 
-        public AuthController(IUserAccountProxy userAccountProxy, ILogWriter logger)
+        public AuthenticationController(IUserAccountProxy proxy, ILogWriter logWriter)
         {
-            _userAccountProxy = userAccountProxy;
-            _logger = logger;
+            _proxy = proxy;
+            _logWriter = logWriter;
+
         }
 
         /// <summary>
@@ -35,37 +36,34 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> GetTokenAsync([FromBody] AuthModel authModel, CancellationToken cancellationToken = default)
+        public async Task<ActionResult> GetTokenAsync([FromBody] AuthenticationModel authenticationModel, CancellationToken cancellationToken = default)
         {
-            if (authModel == null)
-            {
-                return BadRequest("authModel is required");
-            }
+            if (authenticationModel == null) return BadRequest($"{nameof(authenticationModel)} is required");
 
             try
             {
-                var tokenString = await _userAccountProxy.AuthenticateAsync(authModel, cancellationToken);
+                var tokenString = await _proxy.AuthenticateAsync(authenticationModel, cancellationToken);
 
                 //TODO: log error asynchronously when an appropriate method exists
-                _logger.LogInformation($"{authModel.Username} authenticated");
+                _logWriter.LogInformation($"{authenticationModel.Username} authenticated");
                 return Ok(new { Token = tokenString });
             }
             catch (EmptyInputException ex)
             {
                 //TODO: log error asynchronously when an appropriate method exists
-                _logger.LogError($"Attempting to authenticate {authModel.Username} failed: {ex.Message}");
+                _logWriter.LogError($"Attempting to authenticate {authenticationModel.Username} failed: {ex.Message}");
                 return BadRequest(ex.Message);
             }
             catch (AuthenticateException ex)
             {
                 //TODO: log error asynchronously when an appropriate method exists
-                _logger.LogError($"Attempting to authenticate {authModel.Username} failed: {ex.Message}");
+                _logWriter.LogError($"Attempting to authenticate {authenticationModel.Username} failed: {ex.Message}");
                 return Unauthorized("Authentication failed");
             }
             catch (Exception ex)
             {
                 //TODO: log error asynchronously when an appropriate method exists
-                _logger.LogError($"Attempting to authenticate {authModel.Username} failed: {ex.Message}");
+                _logWriter.LogError($"Attempting to authenticate {authenticationModel.Username} failed: {ex.Message}");
                 return BadRequest("Something went wrong. Please contact your administrator");
             }
         }

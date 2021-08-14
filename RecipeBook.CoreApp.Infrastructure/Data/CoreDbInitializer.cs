@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts;
 using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts.Seeds;
 using RecipeBook.SharedKernel.Contracts;
 using System;
@@ -10,13 +8,11 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
 {
     public class CoreDbInitializer
     {
-        private readonly IConfiguration _configuration;
         private readonly CoreDbContext _dbContext;
         private readonly ILogWriter _logWriter;
 
-        public CoreDbInitializer(IConfiguration configuration, CoreDbContext dbContext, ILogWriter logWriter)
+        public CoreDbInitializer(CoreDbContext dbContext, ILogWriter logWriter)
         {
-            _configuration = configuration;
             _dbContext = dbContext;
             _logWriter = logWriter;
         }
@@ -29,8 +25,7 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
         {
             try
             {
-                var salt = _configuration.GetValue<string>("Salt");
-                await SeedUserAccount(salt);
+                await SeedUserAccount();
             }
             catch (Exception ex)
             {
@@ -43,12 +38,11 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
             }
         }
 
-        private async Task SeedUserAccount(string salt)
+        private async Task SeedUserAccount()
         {
             if (! await _dbContext.UserAccounts.AnyAsync())
             {
-                var hashedPassword = UserAccountRepository.HashPassword("Password", salt);
-                _dbContext.UserAccounts.AddRange(UserAccountSeed.GetUserAccounts("Firstname_", "Lastname_", "Username_", hashedPassword, "Admin"));
+                _dbContext.UserAccounts.AddRange(UserAccountSeed.GetUserAccounts("Firstname_", "Lastname_", "Username_", "Password", "Admin"));
                 await _dbContext.SaveChangesAsync();
             }
         }

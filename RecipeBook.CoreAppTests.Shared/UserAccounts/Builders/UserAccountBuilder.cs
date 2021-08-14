@@ -43,9 +43,9 @@ namespace RecipeBook.CoreAppTests.Shared.UserAccounts.Builders
             Username = username;
             return this;
         }
-        public UserAccountBuilder WithPassword(string password, string salt)
+        public UserAccountBuilder WithPassword(string password)
         {
-            Password = UserAccountRepository.HashPassword(password, salt);
+            Password = password;
             return this;
         }
         public UserAccountBuilder WithRole(string role)
@@ -55,7 +55,8 @@ namespace RecipeBook.CoreAppTests.Shared.UserAccounts.Builders
         }
         public UserAccount Build()
         {
-            var userAcount = new UserAccount(Firstname, Lastname, Username, Password, Role);
+            var person = new Person(Firstname, Lastname);
+            var userAcount = new UserAccount(person, Username, Password, Role);
             userAcount.GetType().GetProperty("Id").SetValue(userAcount, Id);
 
             return userAcount;

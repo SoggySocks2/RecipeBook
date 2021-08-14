@@ -18,7 +18,6 @@ namespace RecipeBook.CoreAppTests.Infrastructure.UnitTests
 
         private readonly string _userName = $"Test Username {Guid.NewGuid()}";
         private readonly string _password = Guid.NewGuid().ToString();
-        private const string _salt = "MDxNyrhRlHee7I0CTW9fzVk=";
 
         public AuthRepositoryTests()
         {
@@ -35,7 +34,7 @@ namespace RecipeBook.CoreAppTests.Infrastructure.UnitTests
         {
             Func<Task> userAccount = async () =>
             {
-                _ = await _authRepo.AuthenticateAsync(string.Empty, _password, _salt, CancellationToken.None);
+                _ = await _authRepo.AuthenticateAsync(string.Empty, _password, CancellationToken.None);
             };
 
             userAccount.Should().Throw<EmptyInputException>()
@@ -47,23 +46,11 @@ namespace RecipeBook.CoreAppTests.Infrastructure.UnitTests
         {
             Func<Task> userAccount = async () =>
             {
-                _ = await _authRepo.AuthenticateAsync(_userName, string.Empty, _salt, CancellationToken.None);
+                _ = await _authRepo.AuthenticateAsync(_userName, string.Empty, CancellationToken.None);
             };
 
             userAccount.Should().Throw<EmptyInputException>()
                 .WithMessage("password is required");
-        }
-
-        [Fact]
-        public void AuthenticateAsync_WhenSaltIsMissing_ThrowsEmptyInputException()
-        {
-            Func<Task> userAccount = async () =>
-            {
-                _ = await _authRepo.AuthenticateAsync(_userName, _password, string.Empty, CancellationToken.None);
-            };
-
-            userAccount.Should().Throw<EmptyInputException>()
-                .WithMessage("salt is required");
         }
     }
 }

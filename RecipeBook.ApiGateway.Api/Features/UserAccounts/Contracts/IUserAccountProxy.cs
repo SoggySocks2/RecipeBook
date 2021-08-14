@@ -8,8 +8,9 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Contracts
 {
     public interface IUserAccountProxy
     {
-        Task<string> AuthenticateAsync(AuthModel userAccount, CancellationToken cancellationToken);
+        Task<ExistingUserAccountModel> AddAsync(NewUserAccountModel userAccount, CancellationToken cancellationToken);
         Task<ExistingUserAccountModel> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task<List<ExistingUserAccountModel>> GetListAsync(CancellationToken cancellationToken);
+        Task<string> AuthenticateAsync(AuthenticationModel authenticationModel, CancellationToken cancellationToken);
     }
 }

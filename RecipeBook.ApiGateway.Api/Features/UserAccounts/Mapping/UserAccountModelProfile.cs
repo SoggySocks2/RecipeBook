@@ -8,8 +8,15 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Mapping
     {
         public UserAccountModelProfile()
         {
-            CreateMap<AuthModel, AuthDto>();
+            CreateMap<ExistingUserAccountModel, UserAccountDto>();
+
+            CreateMap<NewUserAccountModel, UserAccountDto>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+
             CreateMap<UserAccountDto, ExistingUserAccountModel>();
+            CreateMap<UserAccountDto, NewUserAccountModel>();
+
+            CreateMap<AuthenticationModel, AuthenticationDto>();
         }
     }
 }
