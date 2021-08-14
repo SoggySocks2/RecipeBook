@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RecipeBook.CoreApp.Domain.Account;
-using RecipeBook.CoreApp.Infrastructure.Data.Account.Configuration;
+using RecipeBook.CoreApp.Domain.UserAccounts;
 using RecipeBook.CoreApp.Infrastructure.Data.Extensions;
+using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts.Configuration;
 using RecipeBook.SharedKernel.BaseClasses;
 using RecipeBook.SharedKernel.Contracts;
 using RecipeBook.SharedKernel.SharedObjects;

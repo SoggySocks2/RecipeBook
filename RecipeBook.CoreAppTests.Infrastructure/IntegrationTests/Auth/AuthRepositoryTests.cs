@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using RecipeBook.CoreApp.Domain.Account.Contracts;
+using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
 using RecipeBook.CoreApp.Infrastructure.Data;
-using RecipeBook.CoreApp.Infrastructure.Data.Account;
-using RecipeBook.CoreAppTests.Shared.UserAccount.Builders;
+using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts;
+using RecipeBook.CoreAppTests.Shared.UserAccounts.Builders;
 using RecipeBook.SharedKernel.CustomExceptions;
 using System;
 using System.Threading;

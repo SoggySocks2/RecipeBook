@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RecipeBook.CoreApp.Api.Features.UserAccount.Contracts;
-using RecipeBook.CoreApp.Api.Features.UserAccount.Services;
-using RecipeBook.CoreApp.Domain.Account.Contracts;
+using RecipeBook.CoreApp.Api.Features.UserAccounts.Contracts;
+using RecipeBook.CoreApp.Api.Features.UserAccounts.Services;
+using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
 using RecipeBook.CoreApp.Infrastructure.Data;
-using RecipeBook.CoreApp.Infrastructure.Data.Account;
+using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts;
 using RecipeBook.CoreApp.Infrastructure.Logging;
 using RecipeBook.SharedKernel.Contracts;
 

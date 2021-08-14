@@ -6,8 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using RecipeBook.ApiGateway.Api.Configuration;
-using RecipeBook.ApiGateway.Api.Features.UserAccount.Contracts;
-using RecipeBook.ApiGateway.Api.Features.UserAccount.Proxies;
+using RecipeBook.ApiGateway.Api.Features.UserAccounts.Contracts;
+using RecipeBook.ApiGateway.Api.Features.UserAccounts.Proxies;
 using RecipeBook.CoreApp.Api.Configuration;
 
 namespace RecipeBook.ApiGateway.Api

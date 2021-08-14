@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using RecipeBook.CoreApp.Infrastructure.Data.Account.Seeds;
+using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts;
+using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts.Seeds;
 using RecipeBook.SharedKernel.Contracts;
 using System;
 using System.Threading.Tasks;
@@ -46,7 +47,7 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
         {
             if (! await _dbContext.UserAccounts.AnyAsync())
             {
-                var hashedPassword = Account.UserAccountRepository.HashPassword("Password", salt);
+                var hashedPassword = UserAccountRepository.HashPassword("Password", salt);
                 _dbContext.UserAccounts.AddRange(UserAccountSeed.GetUserAccounts("Firstname_", "Lastname_", "Username_", hashedPassword, "Admin"));
                 await _dbContext.SaveChangesAsync();
             }
