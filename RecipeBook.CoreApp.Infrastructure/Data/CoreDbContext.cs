@@ -84,15 +84,15 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
             {
                 entry.CurrentValues[nameof(BaseEntity.Created)] = now;
                 //entry.CurrentValues[nameof(BaseEntity.CreatedBy)] = dataProvider?.DataProviderId;
-                entry.CurrentValues[nameof(BaseEntity.CreatedBy)] = AuthenticatedUser.Id;
+                entry.CurrentValues[nameof(BaseEntity.CreatedBy)] = AuthenticatedUser?.Id;
                 entry.CurrentValues[nameof(BaseEntity.Modified)] = now;
-                entry.CurrentValues[nameof(BaseEntity.ModifiedBy)] = AuthenticatedUser.Id;
+                entry.CurrentValues[nameof(BaseEntity.ModifiedBy)] = AuthenticatedUser?.Id;
             }
 
             foreach (var entry in modifiedEntries)
             {
                 entry.CurrentValues[nameof(BaseEntity.Modified)] = now;
-                entry.CurrentValues[nameof(BaseEntity.ModifiedBy)] = AuthenticatedUser.Id;
+                entry.CurrentValues[nameof(BaseEntity.ModifiedBy)] = AuthenticatedUser?.Id;
             }
         }
     }
