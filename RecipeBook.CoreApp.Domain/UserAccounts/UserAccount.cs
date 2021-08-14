@@ -45,6 +45,34 @@ namespace RecipeBook.CoreApp.Domain.UserAccounts
             }
         }
 
+
+        public void UpdateRole(string role)
+        {
+            if (string.IsNullOrWhiteSpace(role)) throw new EmptyInputException($"{nameof(role)} is required");
+
+            /* Only update if it's different so that EF doesn't perform a DB update */
+            if (Role == null || !role.Equals(Role))
+            {
+                Role = role;
+            }
+        }
+
+        public void UpdateLoginCredentials(string username, string password)
+        {
+            if (string.IsNullOrWhiteSpace(username)) throw new EmptyInputException($"{nameof(username)} is required");
+            if (string.IsNullOrWhiteSpace(password)) throw new EmptyInputException($"{nameof(password)} is required");
+
+            /* Only update if it's different so that EF doesn't perform a DB update */
+            if (Username == null || !username.Equals(Username))
+            {
+                Username = username;
+            }
+            if (Password == null || !password.Equals(Password))
+            {
+                Password = HashPassword(password);
+            }
+        }
+
         /// <summary>
         /// Create a one way hashed password
         /// </summary>

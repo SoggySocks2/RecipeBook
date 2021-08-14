@@ -4,7 +4,6 @@ using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
 using RecipeBook.SharedKernel.CustomExceptions;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -44,6 +43,15 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
 
             return await _dbContext.UserAccounts
                 .SingleOrDefaultAsync(c => c.Id == id, cancellationToken);
+        }
+
+        public async Task<UserAccount> UpdateAsync(UserAccount userAccount, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return userAccount;
         }
 
         public async Task<List<UserAccount>> GetListAsync(CancellationToken cancellationToken)

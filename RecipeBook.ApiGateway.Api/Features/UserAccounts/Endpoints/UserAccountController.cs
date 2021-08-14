@@ -112,5 +112,52 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
                 return BadRequest();
             }
         }
+
+        /// <summary>
+        /// Update an existing user account
+        /// </summary>
+        /// <param name="userAccount">User account to update</param>
+        /// <param name="cancellationToken"></param>
+        /// <param name="id">User account id</param>
+        [HttpPut("{id}")]
+        [SwaggerOperation(Summary = "Update user account", Description = "Update an existing user account", Tags = new[] { "UserAccount" })]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ExistingUserAccountModel))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] ExistingUserAccountModel userAccount, CancellationToken cancellationToken = default)
+        {
+            if (userAccount == null || userAccount.Id != id) return BadRequest($"{(nameof(id))} is invalid");
+
+            try
+            {
+                var result = await _proxy.UpdateAsync(userAccount, cancellationToken);
+                return Ok(result);
+            }
+            catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken) // includes TaskCanceledException
+            {
+                _logWriter.LogInformation("Operation cancelled: " + ex.Message);
+                return BadRequest();
+            }
+            catch (EmptyInputException ex)
+            {
+                _logWriter.LogWarning("Empty Input: " + ex.Message);
+                return BadRequest();
+            }
+            catch (InvalidValueException ex)
+            {
+                _logWriter.LogWarning("Invalid Value: " + ex.Message);
+                return BadRequest();
+            }
+            catch (NotFoundException ex)
+            {
+                _logWriter.LogWarning("Not Found: " + ex.Message);
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                _logWriter.LogError("System error: " + ex.Message);
+                return BadRequest();
+            }
+        }
     }
 }

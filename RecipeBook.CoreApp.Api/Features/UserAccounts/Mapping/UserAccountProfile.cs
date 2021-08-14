@@ -11,7 +11,6 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Mapping
             CreateMap<UserAccount, UserAccountDto>()
                 .IncludeMembers(x => x.Person);
 
-
             CreateMap<Person, UserAccountDto>(MemberList.Source);
 
             CreateMap<UserAccountDto, UserAccount>()
@@ -22,6 +21,8 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Mapping
                         if (dest is UserAccount userAccount)
                         {
                             userAccount.UpdatePersonDetails(person);
+                            userAccount.UpdateRole(source.Role);
+                            userAccount.UpdateLoginCredentials(source.Username, source.Password);
                             return userAccount;
                         }
 
