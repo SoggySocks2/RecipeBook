@@ -1,16 +1,23 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using RecipeBook.ApiGateway.Api.Configuration;
+using RecipeBook.ApiGateway.Api.Features.Identity;
 using RecipeBook.ApiGateway.Api.Features.UserAccounts.Contracts;
 using RecipeBook.ApiGateway.Api.Features.UserAccounts.Proxies;
 using RecipeBook.CoreApp.Api.Configuration;
 using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
+using RecipeBook.SharedKernel.Contracts;
 using RecipeBook.SharedKernel.SharedObjects;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace RecipeBook.ApiGateway.Api
 {
@@ -43,10 +50,24 @@ namespace RecipeBook.ApiGateway.Api
             services.AddApplicationInsightsTelemetry();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IAuthenticatedUser, AuthenticatedUser>();
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RecipeBook.ApiGateway.Api", Version = "v1" });
+            });
+
+            /*
+                Ensure all endpoints require authentication. Use [AllowAnonymous] on endpoints
+                that don't require authentication, such as GetTokenAsync()
+            */
+            services.AddMvcCore(o =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .RequireRole("Admin") /* Restrict access to endpoints to the Admin role */
+                    .Build();
+                o.Filters.Add(new AuthorizeFilter(policy));
             });
         }
 

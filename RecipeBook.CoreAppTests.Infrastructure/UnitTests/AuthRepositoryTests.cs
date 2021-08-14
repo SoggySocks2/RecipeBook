@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using RecipeBook.ApiGateway.Api.Features.Identity;
 using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
 using RecipeBook.CoreApp.Infrastructure.Data;
 using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts;
@@ -25,7 +26,8 @@ namespace RecipeBook.CoreAppTests.Infrastructure.UnitTests
                 .UseInMemoryDatabase(databaseName: "RecipeBook")
                 .Options;
 
-            _dbContext = new CoreDbContext(dbOptions);
+            var authenticatedUser = new AuthenticatedUser(); ;
+            _dbContext = new CoreDbContext(dbOptions, authenticatedUser);
             _authRepo = new UserAccountRepository(_dbContext);
         }
 

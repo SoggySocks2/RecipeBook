@@ -32,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RecipeBook.ApiGateway.Api\RecipeBook.ApiGateway.Api.csproj" />
     <ProjectReference Include="..\RecipeBook.CoreApp.Api\RecipeBook.CoreApp.Api.csproj" />
     <ProjectReference Include="..\RecipeBook.CoreApp.Domain\RecipeBook.CoreApp.Domain.csproj" />
     <ProjectReference Include="..\RecipeBook.CoreApp.Infrastructure\RecipeBook.CoreApp.Infrastructure.csproj" />

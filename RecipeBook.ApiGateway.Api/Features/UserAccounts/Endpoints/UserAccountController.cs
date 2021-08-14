@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipeBook.ApiGateway.Api.Features.UserAccounts.Contracts;
 using RecipeBook.ApiGateway.Api.Features.UserAccounts.Models;
@@ -133,7 +132,7 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
                 var result = await _proxy.UpdateAsync(userAccount, cancellationToken);
                 return Ok(result);
             }
-            catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken) // includes TaskCanceledException
+            catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken)
             {
                 _logWriter.LogInformation("Operation cancelled: " + ex.Message);
                 return BadRequest();
@@ -182,7 +181,7 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
                 await _proxy.DeleteByIdAsync(id, cancellationToken);
                 return Ok();
             }
-            catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken) // includes TaskCanceledException
+            catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken)
             {
                 _logWriter.LogInformation("Operation cancelled: " + ex.Message);
                 return BadRequest();

@@ -14,11 +14,13 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
 {
     public class CoreDbContext : DbContext
     {
+        private readonly IAuthenticatedUser AuthenticatedUser;
+
         public DbSet<UserAccount> UserAccounts { get; set; }
 
-        public CoreDbContext(DbContextOptions<CoreDbContext> options) : base(options)
+        public CoreDbContext(DbContextOptions<CoreDbContext> options, IAuthenticatedUser authenticatedUser) : base(options)
         {
-
+            AuthenticatedUser = authenticatedUser;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -82,15 +84,15 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
             {
                 entry.CurrentValues[nameof(BaseEntity.Created)] = now;
                 //entry.CurrentValues[nameof(BaseEntity.CreatedBy)] = dataProvider?.DataProviderId;
-                entry.CurrentValues[nameof(BaseEntity.CreatedBy)] = Guid.Empty;
+                entry.CurrentValues[nameof(BaseEntity.CreatedBy)] = AuthenticatedUser.Id;
                 entry.CurrentValues[nameof(BaseEntity.Modified)] = now;
-                entry.CurrentValues[nameof(BaseEntity.ModifiedBy)] = Guid.Empty;
+                entry.CurrentValues[nameof(BaseEntity.ModifiedBy)] = AuthenticatedUser.Id;
             }
 
             foreach (var entry in modifiedEntries)
             {
                 entry.CurrentValues[nameof(BaseEntity.Modified)] = now;
-                entry.CurrentValues[nameof(BaseEntity.ModifiedBy)] = Guid.Empty;
+                entry.CurrentValues[nameof(BaseEntity.ModifiedBy)] = AuthenticatedUser.Id;
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using RecipeBook.CoreApp.Domain.UserAccounts;
-using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts;
 using System;
 
 namespace RecipeBook.CoreAppTests.Shared.UserAccounts.Builders

@@ -14,6 +14,7 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthenticationController : ControllerBase
     {
         private readonly IUserAccountProxy _proxy;
