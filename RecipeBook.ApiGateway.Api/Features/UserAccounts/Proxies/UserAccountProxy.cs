@@ -4,6 +4,8 @@ using RecipeBook.ApiGateway.Api.Features.UserAccounts.Contracts;
 using RecipeBook.ApiGateway.Api.Features.UserAccounts.Models;
 using RecipeBook.CoreApp.Api.Features.UserAccounts.Contracts;
 using RecipeBook.CoreApp.Api.Features.UserAccounts.Models;
+using RecipeBook.SharedKernel.Responses;
+using RecipeBook.SharedKernel.SharedObjects;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -52,11 +54,13 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Proxies
             await _userAccountService.DeleteByIdAsync(id, cancellationToken);
         }
 
-        public async Task<List<ExistingUserAccountModel>> GetListAsync(CancellationToken cancellationToken)
+        public async Task<PagedResponse<List<ExistingUserAccountModel>>> GetListAsync(PaginationFilter filter, CancellationToken cancellationToken)
         {
-            var userAccounts = await _userAccountService.GetListAsync(cancellationToken);
+            var userAccounts = await _userAccountService.GetListAsync(filter, cancellationToken);
 
-           return _mapper.Map<List<ExistingUserAccountModel>>(userAccounts);
+            var data = _mapper.Map<List<ExistingUserAccountModel>>(userAccounts.Data);
+
+            return new PagedResponse<List<ExistingUserAccountModel>>(data, userAccounts.Pagination);
         }
 
         public async Task<string> AuthenticateAsync(AuthenticationModel authenticationModel, CancellationToken cancellationToken)

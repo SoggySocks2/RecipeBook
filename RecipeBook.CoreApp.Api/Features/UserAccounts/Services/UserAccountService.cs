@@ -5,6 +5,8 @@ using RecipeBook.CoreApp.Api.Features.UserAccounts.Models;
 using RecipeBook.CoreApp.Domain.UserAccounts;
 using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
 using RecipeBook.SharedKernel.CustomExceptions;
+using RecipeBook.SharedKernel.Responses;
+using RecipeBook.SharedKernel.SharedObjects;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -75,11 +77,13 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
             await _userAccountRepository.DeleteAsync(userAccount, cancellationToken);
         }
 
-        public async Task<List<UserAccountDto>> GetListAsync(CancellationToken cancellationToken)
+        public async Task<PagedResponse<List<UserAccountDto>>> GetListAsync(PaginationFilter filter, CancellationToken cancellationToken)
         {
-            var userAccounts = await _userAccountRepository.GetListAsync(cancellationToken);
+            var userAccounts = await _userAccountRepository.GetListAsync(filter, cancellationToken);
 
-            return _mapper.Map<List<UserAccountDto>>(userAccounts);
+            var data = _mapper.Map<List<UserAccountDto>>(userAccounts.Data);
+
+            return new PagedResponse<List<UserAccountDto>>(data, userAccounts.Pagination);
         }
 
         public async Task<string> AuthenticateAsync(string jwtEncryptionKey, AuthenticationDto authenticationDto, CancellationToken cancellationToken = default)
