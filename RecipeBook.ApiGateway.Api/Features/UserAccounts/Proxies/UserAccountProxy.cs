@@ -47,6 +47,11 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Proxies
             return _mapper.Map<ExistingUserAccountModel>(updatedUserAccount);
         }
 
+        public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            await _userAccountService.DeleteByIdAsync(id, cancellationToken);
+        }
+
         public async Task<List<ExistingUserAccountModel>> GetListAsync(CancellationToken cancellationToken)
         {
             var userAccounts = await _userAccountService.GetListAsync(cancellationToken);

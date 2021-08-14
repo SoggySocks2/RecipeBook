@@ -159,5 +159,54 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
                 return BadRequest();
             }
         }
+
+        /// <summary>
+        /// Delete an existing user account
+        /// </summary>
+        /// <param name="id">User account id</param>
+        /// <param name="cancellationToken"></param>
+        [HttpDelete("{id}")]
+        [SwaggerOperation(Summary = "Delete user account", Description = "Delete an existing user account", Tags = new[] { "UserAccount" })]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (id == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                await _proxy.DeleteByIdAsync(id, cancellationToken);
+                return Ok();
+            }
+            catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken) // includes TaskCanceledException
+            {
+                _logWriter.LogInformation("Operation cancelled: " + ex.Message);
+                return BadRequest();
+            }
+            catch (EmptyInputException ex)
+            {
+                _logWriter.LogWarning("Empty Input: " + ex.Message);
+                return BadRequest();
+            }
+            catch (InvalidValueException ex)
+            {
+                _logWriter.LogWarning("Invalid Value: " + ex.Message);
+                return BadRequest();
+            }
+            catch (NotFoundException ex)
+            {
+                _logWriter.LogWarning("Not Found: " + ex.Message);
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                _logWriter.LogError("System error: " + ex.Message);
+                return BadRequest();
+            }
+        }
     }
 }

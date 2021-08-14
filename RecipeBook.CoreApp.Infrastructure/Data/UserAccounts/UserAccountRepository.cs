@@ -54,6 +54,14 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
             return userAccount;
         }
 
+        public async Task DeleteAsync(UserAccount userAccount, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            _dbContext.UserAccounts.Remove(userAccount);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
         public async Task<List<UserAccount>> GetListAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();

@@ -64,6 +64,17 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
             return _mapper.Map<UserAccountDto>(userAccount);
         }
 
+        public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            if (id == Guid.Empty) throw new EmptyInputException($"{nameof(id)} is required");
+
+            var userAccount = await _userAccountRepository.GetByIdAsync(id, cancellationToken);
+
+            if (userAccount is null) throw new NotFoundException("User account not found");
+
+            await _userAccountRepository.DeleteAsync(userAccount, cancellationToken);
+        }
+
         public async Task<List<UserAccountDto>> GetListAsync(CancellationToken cancellationToken)
         {
             var userAccounts = await _userAccountRepository.GetListAsync(cancellationToken);
