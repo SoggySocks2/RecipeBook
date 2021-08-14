@@ -1,4 +1,6 @@
 ﻿using RecipeBook.ApiGateway.Api.Features.UserAccounts.Models;
+using RecipeBook.SharedKernel.Responses;
+using RecipeBook.SharedKernel.SharedObjects;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -12,7 +14,7 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Contracts
         Task<ExistingUserAccountModel> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task<ExistingUserAccountModel> UpdateAsync(ExistingUserAccountModel userAccount, CancellationToken cancellationToken);
         Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken);
-        Task<List<ExistingUserAccountModel>> GetListAsync(CancellationToken cancellationToken);
+        Task<PagedResponse<List<ExistingUserAccountModel>>> GetListAsync(PaginationFilter filter, CancellationToken cancellationToken);
         Task<string> AuthenticateAsync(AuthenticationModel authenticationModel, CancellationToken cancellationToken);
     }
 }

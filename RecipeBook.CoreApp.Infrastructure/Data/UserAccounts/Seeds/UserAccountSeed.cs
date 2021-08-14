@@ -5,7 +5,7 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts.Seeds
 {
     public static class UserAccountSeed
     {
-        public static List<UserAccount> GetUserAccounts(string firstNamePrefix, string lastNamePrefix, string userNamePrefix, string hashedPpassword, string role, int count = 10)
+        public static List<UserAccount> GetUserAccounts(string firstNamePrefix, string lastNamePrefix, string userNamePrefix, string hashedPpassword, string role, int count = 100)
         {
             var userAccounts = new List<UserAccount>();
 

@@ -2,6 +2,9 @@
 using RecipeBook.CoreApp.Domain.UserAccounts;
 using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
 using RecipeBook.SharedKernel.CustomExceptions;
+using RecipeBook.SharedKernel.Extensions;
+using RecipeBook.SharedKernel.Responses;
+using RecipeBook.SharedKernel.SharedObjects;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -62,12 +65,17 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<List<UserAccount>> GetListAsync(CancellationToken cancellationToken)
+        public async Task<PagedResponse<List<UserAccount>>> GetListAsync(PaginationFilter filter, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            return await _dbContext.UserAccounts
+            var count = await _dbContext.UserAccounts.CountAsync(cancellationToken);
+
+            var data = await _dbContext.UserAccounts
+                .ApplyOrderingAndPaging(filter, count)
                 .ToListAsync(cancellationToken);
+
+            return new PagedResponse<List<UserAccount>>(data, new Pagination(filter, count));
         }
 
         /// <summary>
