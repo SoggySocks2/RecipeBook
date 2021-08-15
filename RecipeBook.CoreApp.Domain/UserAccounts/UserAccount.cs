@@ -17,6 +17,7 @@ namespace RecipeBook.CoreApp.Domain.UserAccounts
         private UserAccount()
         {
 
+
         }
 
         public UserAccount(Person person, string username, string password, string role)
