@@ -136,7 +136,7 @@ namespace RecipeBook.CoreAppTests.Infrastructure.IntegrationTests.UserAccount
             var password = "Test Password";
             var testUserAccount = new UserAccountBuilder()
                                     .WithTestValues()
-                                    .WithUsername(userName)
+                                    .WithUserName(userName)
                                     .WithPassword(password)
                                     .Build();
 

@@ -6,18 +6,16 @@ namespace RecipeBook.CoreAppTests.Shared.UserAccounts.Builders
     public class UserAccountBuilder
     {
         private Guid Id { get; set; }
-        private string Firstname { get; set; }
-        private string Lastname { get; set; }
-        private string Username { get; set; }
+        private Person Person { get; set; }
+        private string UserName { get; set; }
         private string Password { get; set; }
         private string Role { get; set; }
 
         public UserAccountBuilder WithTestValues()
         {
             Id = Guid.NewGuid();
-            Firstname = "Test Firstname";
-            Lastname = "Test Lastname";
-            Username = "Test Username";
+            Person = new PersonBuilder().WithTestValues().WithFirstName("Test Firstname").WithLastName("Test Lastname").Build();
+            UserName = "Test Username";
             Password = "Test Password";
             Role = "Admin";
             return this;
@@ -27,19 +25,14 @@ namespace RecipeBook.CoreAppTests.Shared.UserAccounts.Builders
             Id = id;
             return this;
         }
-        public UserAccountBuilder WithFirstname(string firstname)
+        public UserAccountBuilder WithPerson(Person person)
         {
-            Firstname = firstname;
+            Person = person;
             return this;
         }
-        public UserAccountBuilder WithLastname(string lastname)
+        public UserAccountBuilder WithUserName(string userName)
         {
-            Lastname = lastname;
-            return this;
-        }
-        public UserAccountBuilder WithUsername(string username)
-        {
-            Username = username;
+            UserName = userName;
             return this;
         }
         public UserAccountBuilder WithPassword(string password)
@@ -54,8 +47,7 @@ namespace RecipeBook.CoreAppTests.Shared.UserAccounts.Builders
         }
         public UserAccount Build()
         {
-            var person = new Person(Firstname, Lastname);
-            var userAcount = new UserAccount(person, Username, Password, Role);
+            var userAcount = new UserAccount(Person, UserName, Password, Role);
             userAcount.GetType().GetProperty("Id").SetValue(userAcount, Id);
 
             return userAcount;
