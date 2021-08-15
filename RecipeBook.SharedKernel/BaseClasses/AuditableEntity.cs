@@ -3,6 +3,9 @@ using System;
 
 namespace RecipeBook.SharedKernel.BaseClasses
 {
+    /// <summary>
+    /// Represents who and when created or modified data
+    /// </summary>
     public class AuditableEntity : IAuditableEntity
     {
         public DateTime Created { get; set; }

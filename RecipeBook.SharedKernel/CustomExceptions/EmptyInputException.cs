@@ -2,6 +2,9 @@
 
 namespace RecipeBook.SharedKernel.CustomExceptions
 {
+    /// <summary>
+    /// Thrown when a required parameter is empty or null
+    /// </summary>
     public class EmptyInputException : BaseException
     {
         public EmptyInputException()

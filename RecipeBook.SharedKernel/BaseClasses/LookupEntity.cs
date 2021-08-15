@@ -1,5 +1,8 @@
 ﻿namespace RecipeBook.SharedKernel.BaseClasses
 {
+    /// <summary>
+    /// Represents key\value pairs for populating lists
+    /// </summary>
     public abstract class LookupEntity
     {
         public int Id { get; protected set; }

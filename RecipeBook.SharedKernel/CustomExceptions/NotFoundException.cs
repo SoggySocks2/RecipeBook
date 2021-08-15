@@ -2,6 +2,9 @@
 
 namespace RecipeBook.SharedKernel.CustomExceptions
 {
+    /// <summary>
+    /// Thrown when a record can't be found
+    /// </summary>
     public class NotFoundException : BaseException
     {
         public NotFoundException()

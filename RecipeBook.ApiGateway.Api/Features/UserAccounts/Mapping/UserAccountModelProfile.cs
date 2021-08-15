@@ -10,6 +10,7 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Mapping
         {
             CreateMap<ExistingUserAccountModel, UserAccountDto>();
 
+            /* NewUserAccountModel doesn't contain an Id property so ignore it */
             CreateMap<NewUserAccountModel, UserAccountDto>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 

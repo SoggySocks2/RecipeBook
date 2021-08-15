@@ -13,6 +13,9 @@ namespace RecipeBook.ApiGateway.Api.Configuration
 {
     public static class JwtAuthenticationConfiguration
     {
+        /// <summary>
+        /// Read and decrypt the incoming jason web token
+        /// </summary>
         public static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             if (configuration is null)
@@ -43,6 +46,7 @@ namespace RecipeBook.ApiGateway.Api.Configuration
                         var roles = context.Principal.Claims.Where(c => c.Type == ClaimTypes.Role).ToList();
                         if (roles.Count == 0) context.Fail("UnAuthorized");
 
+                        // Set the user roles
                         var additionalClaims = new List<Claim>();
                         foreach (var role in roles)
                         {

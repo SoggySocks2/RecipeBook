@@ -15,9 +15,6 @@ using RecipeBook.CoreApp.Api.Configuration;
 using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
 using RecipeBook.SharedKernel.Contracts;
 using RecipeBook.SharedKernel.SharedObjects;
-using System;
-using System.IO;
-using System.Reflection;
 
 namespace RecipeBook.ApiGateway.Api
 {
@@ -33,16 +30,16 @@ namespace RecipeBook.ApiGateway.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            /* Load client configuration settings */
             Configuration.Bind(ClientSettings.CONFIG_NAME, ClientSettings.Instance);
+
+            /* Set pages response properties to configuration values */
             PaginationHelper.SetDefaults(ClientSettings.Instance.DefaultPageSize, ClientSettings.Instance.DefaultPageSizeLimit);
+
             services.AddSingleton<IClientSettings>(services => ClientSettings.Instance);
-
             services.AddJwtAuthentication(Configuration);
-
             services.AddScoped<IUserAccountProxy, UserAccountProxy>();
-
             services.AddCoreAppServices(Configuration);
-
             services.AddAutoMapper(typeof(Startup).Assembly);
 
             services.AddControllers();
@@ -52,6 +49,7 @@ namespace RecipeBook.ApiGateway.Api
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthenticatedUser, AuthenticatedUser>();
 
+            /* Enable swagger documentation */
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RecipeBook.ApiGateway.Api", Version = "v1" });

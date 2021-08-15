@@ -33,7 +33,7 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
         /// <returns>JWT</returns>
         [HttpPost]
         [AllowAnonymous]
-        [SwaggerOperation(Summary = "Get JWT Token", Description = "Authenticate and generate a JWT", Tags = new[] { "JWT" })]
+        [SwaggerOperation(Summary = "Get JWT Token", Description = "Authenticate and generate a jason web token", Tags = new[] { "JWT" })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -52,20 +52,20 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
             catch (EmptyInputException ex)
             {
                 //TODO: log error asynchronously when an appropriate method exists
-                _logWriter.LogError($"Attempting to authenticate {authenticationModel.Username} failed: {ex.Message}");
-                return BadRequest(ex.Message);
+                _logWriter.LogError($"Attempt to authenticate {authenticationModel.Username} failed: {ex.Message}");
+                return BadRequest($"Attempt to authenticate {authenticationModel.Username} failed: {ex.Message}");
             }
             catch (AuthenticateException ex)
             {
                 //TODO: log error asynchronously when an appropriate method exists
-                _logWriter.LogError($"Attempting to authenticate {authenticationModel.Username} failed: {ex.Message}");
+                _logWriter.LogError($"Attempt to authenticate {authenticationModel.Username} failed: {ex.Message}");
                 return Unauthorized("Authentication failed");
             }
             catch (Exception ex)
             {
                 //TODO: log error asynchronously when an appropriate method exists
                 _logWriter.LogError($"Attempting to authenticate {authenticationModel.Username} failed: {ex.Message}");
-                return BadRequest("Something went wrong. Please contact your administrator");
+                return BadRequest("System error");
             }
         }
     }

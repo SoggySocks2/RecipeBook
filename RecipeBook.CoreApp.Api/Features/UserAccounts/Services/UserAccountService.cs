@@ -17,6 +17,9 @@ using System.Threading.Tasks;
 
 namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
 {
+    /// <summary>
+    /// Provides access to repositories
+    /// </summary>
     public class UserAccountService : IUserAccountService
     {
         private readonly IMapper _mapper;
@@ -74,12 +77,12 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
 
             if (userAccount is null) throw new NotFoundException("User account not found");
 
-            await _userAccountRepository.DeleteAsync(userAccount, cancellationToken);
+            await _userAccountRepository.DeleteByIdAsync(userAccount, cancellationToken);
         }
 
-        public async Task<PagedResponse<List<UserAccountDto>>> GetListAsync(PaginationFilter filter, CancellationToken cancellationToken)
+        public async Task<PagedResponse<List<UserAccountDto>>> GetListAsync(PaginationFilter paginationFilter, CancellationToken cancellationToken)
         {
-            var userAccounts = await _userAccountRepository.GetListAsync(filter, cancellationToken);
+            var userAccounts = await _userAccountRepository.GetListAsync(paginationFilter, cancellationToken);
 
             var data = _mapper.Map<List<UserAccountDto>>(userAccounts.Data);
 

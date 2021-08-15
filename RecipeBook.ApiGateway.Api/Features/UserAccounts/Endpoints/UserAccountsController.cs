@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeBook.ApiGateway.Api.Features.UserAccounts.Contracts;
 using RecipeBook.ApiGateway.Api.Features.UserAccounts.Models;
 using RecipeBook.SharedKernel.Contracts;
-using RecipeBook.SharedKernel.CustomExceptions;
 using RecipeBook.SharedKernel.Responses;
 using RecipeBook.SharedKernel.SharedObjects;
 using Swashbuckle.AspNetCore.Annotations;
@@ -44,27 +43,12 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
             catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken)
             {
                 _logWriter.LogInformation("Operation cancelled: " + ex.Message);
-                return BadRequest();
-            }
-            catch (EmptyInputException ex)
-            {
-                _logWriter.LogWarning("Empty Input: " + ex.Message);
-                return BadRequest();
-            }
-            catch (InvalidValueException ex)
-            {
-                _logWriter.LogWarning("Invalid Value: " + ex.Message);
-                return BadRequest();
-            }
-            catch (NotFoundException ex)
-            {
-                _logWriter.LogWarning("Not Found: " + ex.Message);
-                return BadRequest();
+                return BadRequest("Operation cancelled: " + ex.Message);
             }
             catch (Exception ex)
             {
                 _logWriter.LogError("System error: " + ex.Message);
-                return BadRequest();
+                return BadRequest("System error");
             }
         }
     }

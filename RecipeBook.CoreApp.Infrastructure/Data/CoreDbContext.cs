@@ -52,6 +52,10 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
             return await base.SaveChangesAsync(cancellationToken);
         }
 
+
+        /// <summary>
+        /// Change state of deleted entities and set IsDeleted = true
+        /// </summary>
         private void ApplySoftDelete()
         {
             var entries = ChangeTracker.Entries<ISoftDelete>().Where(x => x.State == EntityState.Deleted);
@@ -74,6 +78,9 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
             }
         }
 
+        /// <summary>
+        /// Set created and modified properties
+        /// </summary>
         private void ApplyAuditing()
         {
             var addedEntries = ChangeTracker.Entries<IAuditableEntity>().Where(x => x.IsAdded());

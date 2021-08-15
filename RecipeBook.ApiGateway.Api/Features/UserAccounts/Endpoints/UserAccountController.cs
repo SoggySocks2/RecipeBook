@@ -28,8 +28,6 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
         /// <summary>
         /// Add a new user account
         /// </summary>
-        /// <param name="userAccount">New user account</param>
-        /// <param name="cancellationToken"></param>
         [HttpPost]
         [SwaggerOperation(Summary = "Create user account", Description = "Create a new user account", Tags = new[] { "UserAccount" })]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ExistingUserAccountModel))]
@@ -47,35 +45,28 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
             catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken)
             {
                 _logWriter.LogInformation("Operation cancelled: " + ex.Message);
-                return BadRequest();
+                return BadRequest("Operation cancelled: " + ex.Message);
             }
             catch (EmptyInputException ex)
             {
                 _logWriter.LogWarning("Empty Input: " + ex.Message);
-                return BadRequest();
-            }
-            catch (InvalidValueException ex)
-            {
-                _logWriter.LogWarning("Invalid Value: " + ex.Message);
-                return BadRequest();
+                return BadRequest("Empty Input: " + ex.Message);
             }
             catch (NotFoundException ex)
             {
                 _logWriter.LogWarning("Not Found: " + ex.Message);
-                return NotFound();
+                return NotFound("Not Found: " + ex.Message);
             }
             catch (Exception ex)
             {
                 _logWriter.LogError("System error: " + ex.Message);
-                return BadRequest();
+                return BadRequest("System error");
             }
         }
 
         /// <summary>
         /// Get a user account
         /// </summary>
-        /// <param name="id">User account id</param>
-        /// <param name="cancellationToken"></param>
         [HttpGet("{id}")]
         [SwaggerOperation(Summary = "Get user account", Description = "Get a user account", Tags = new[] { "UserAccount" })]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -93,31 +84,28 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
             catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken)
             {
                 _logWriter.LogInformation("Operation cancelled: " + ex.Message);
-                return BadRequest();
+                return BadRequest("Operation cancelled: " + ex.Message);
             }
             catch (EmptyInputException ex)
             {
                 _logWriter.LogWarning("Empty Input: " + ex.Message);
-                return BadRequest();
+                return BadRequest("Empty Input: " + ex.Message);
             }
             catch (NotFoundException ex)
             {
                 _logWriter.LogWarning("Not Found: " + ex.Message);
-                return NotFound();
+                return NotFound("Not Found: " + ex.Message);
             }
             catch (Exception ex)
             {
                 _logWriter.LogError("System error: " + ex.Message);
-                return BadRequest();
+                return BadRequest("System error");
             }
         }
 
         /// <summary>
         /// Update an existing user account
         /// </summary>
-        /// <param name="userAccount">User account to update</param>
-        /// <param name="cancellationToken"></param>
-        /// <param name="id">User account id</param>
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update user account", Description = "Update an existing user account", Tags = new[] { "UserAccount" })]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ExistingUserAccountModel))]
@@ -135,27 +123,22 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
             catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken)
             {
                 _logWriter.LogInformation("Operation cancelled: " + ex.Message);
-                return BadRequest();
+                return BadRequest("Operation cancelled: " + ex.Message);
             }
             catch (EmptyInputException ex)
             {
                 _logWriter.LogWarning("Empty Input: " + ex.Message);
-                return BadRequest();
-            }
-            catch (InvalidValueException ex)
-            {
-                _logWriter.LogWarning("Invalid Value: " + ex.Message);
-                return BadRequest();
+                return BadRequest("Empty Input: " + ex.Message);
             }
             catch (NotFoundException ex)
             {
                 _logWriter.LogWarning("Not Found: " + ex.Message);
-                return NotFound();
+                return NotFound("Not Found: " + ex.Message);
             }
             catch (Exception ex)
             {
                 _logWriter.LogError("System error: " + ex.Message);
-                return BadRequest();
+                return BadRequest("System error");
             }
         }
 
@@ -169,12 +152,9 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<ActionResult> DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            if (id == Guid.Empty)
-            {
-                return BadRequest();
-            }
+            if (id == Guid.Empty) return BadRequest($"{nameof(id)} is required");
 
             try
             {
@@ -184,27 +164,22 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
             catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken)
             {
                 _logWriter.LogInformation("Operation cancelled: " + ex.Message);
-                return BadRequest();
+                return BadRequest("Operation cancelled: " + ex.Message);
             }
             catch (EmptyInputException ex)
             {
                 _logWriter.LogWarning("Empty Input: " + ex.Message);
-                return BadRequest();
-            }
-            catch (InvalidValueException ex)
-            {
-                _logWriter.LogWarning("Invalid Value: " + ex.Message);
-                return BadRequest();
+                return BadRequest("Empty Input: " + ex.Message);
             }
             catch (NotFoundException ex)
             {
                 _logWriter.LogWarning("Not Found: " + ex.Message);
-                return NotFound();
+                return NotFound("Not Found: " + ex.Message);
             }
             catch (Exception ex)
             {
                 _logWriter.LogError("System error: " + ex.Message);
-                return BadRequest();
+                return BadRequest("System error");
             }
         }
     }
