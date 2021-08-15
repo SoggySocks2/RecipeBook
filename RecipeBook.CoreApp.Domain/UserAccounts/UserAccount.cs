@@ -30,7 +30,7 @@ namespace RecipeBook.CoreApp.Domain.UserAccounts
 
             UpdatePersonDetails(person);
             Username = username;
-            Password = HashPassword(password);
+            Password = password;
             Role = role;
         }
 
@@ -44,7 +44,6 @@ namespace RecipeBook.CoreApp.Domain.UserAccounts
                 Person = person;
             }
         }
-
 
         public void UpdateRole(string role)
         {
@@ -69,29 +68,8 @@ namespace RecipeBook.CoreApp.Domain.UserAccounts
             }
             if (Password == null || !password.Equals(Password))
             {
-                Password = HashPassword(password);
+                Password = password;
             }
-        }
-
-        /// <summary>
-        /// Create a one way hashed password
-        /// </summary>
-        /// <param name="password">Password to hash</param>
-        /// <param name="salt">To to use when hashing the password</param>
-        /// <returns>Hashed password</returns>
-        public static string HashPassword(string password)
-        {
-            //TODO: Make this dynamic
-            //var salt = _configuration.GetValue<string>("Salt");
-            var salt = "MDxNyrhRlHee7I0CTW9fzVk=";
-
-            var nIterations = 23;
-            var nHash = 7;
-
-            var saltBytes = Convert.FromBase64String(salt);
-
-            using var rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, saltBytes, nIterations);
-            return Convert.ToBase64String(rfc2898DeriveBytes.GetBytes(nHash));
         }
     }
 }

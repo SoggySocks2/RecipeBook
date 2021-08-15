@@ -8,16 +8,6 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Models
     public class AuthenticationModel
     {
         public string Username { get; set; }
-
-        string password;
-        public string Password 
-        { 
-            get { return password; }
-            set
-            {
-                // Password is stored in db using a one way hash so we need to hash before attempting to authenticate
-                password = UserAccount.HashPassword(value);
-            }
-        }
+        public string Password { get; set; }
     }
 }

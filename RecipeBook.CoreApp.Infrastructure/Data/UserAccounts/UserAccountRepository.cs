@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using RecipeBook.CoreApp.Domain.UserAccounts;
 using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
 using RecipeBook.SharedKernel.CustomExceptions;
@@ -7,6 +8,7 @@ using RecipeBook.SharedKernel.Responses;
 using RecipeBook.SharedKernel.SharedObjects;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,16 +19,21 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
     /// </summary>
     public class UserAccountRepository : IUserAccountRepository
     {
+        private readonly IConfiguration _configuration;
         private readonly CoreDbContext _dbContext;
 
-        public UserAccountRepository(CoreDbContext dbContext)
+        public UserAccountRepository(IConfiguration configuration, CoreDbContext dbContext)
         {
+            _configuration = configuration;
             _dbContext = dbContext;
         }
 
         public async Task<UserAccount> AddAsync(UserAccount userAccount, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
+
+            var hashedPassword = HashPassword(userAccount.Password);
+            userAccount.UpdateLoginCredentials(userAccount.Username, hashedPassword);
 
             await _dbContext.AddAsync(userAccount, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
@@ -79,7 +86,9 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
             if (string.IsNullOrWhiteSpace(userName)) throw new EmptyInputException($"{nameof(userName)} is required");
             if (string.IsNullOrWhiteSpace(password)) throw new EmptyInputException($"{nameof(password)} is required");
 
-            var userAccount = await _dbContext.UserAccounts.FirstOrDefaultAsync(x => x.Username == userName && x.Password == password, cancellationToken);
+            var hashedPassword = HashPassword(password);
+
+            var userAccount = await _dbContext.UserAccounts.FirstOrDefaultAsync(x => x.Username == userName && x.Password == hashedPassword, cancellationToken);
 
             if (userAccount == default)
             {
@@ -88,6 +97,22 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
             }
 
             return userAccount;
+        }
+
+        /// <summary>
+        /// Create a one way hashed password
+        /// </summary>
+        private string HashPassword(string password)
+        {
+            var salt = _configuration.GetValue<string>("Salt");
+
+            var nIterations = 23;
+            var nHash = 7;
+
+            var saltBytes = Convert.FromBase64String(salt);
+
+            using var rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, saltBytes, nIterations);
+            return Convert.ToBase64String(rfc2898DeriveBytes.GetBytes(nHash));
         }
     }
 }
