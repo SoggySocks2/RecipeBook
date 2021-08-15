@@ -77,7 +77,7 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
 
             if (userAccount is null) throw new NotFoundException("User account not found");
 
-            await _userAccountRepository.DeleteAsync(userAccount, cancellationToken);
+            await _userAccountRepository.DeleteByIdAsync(userAccount, cancellationToken);
         }
 
         public async Task<PagedResponse<List<UserAccountDto>>> GetListAsync(PaginationFilter paginationFilter, CancellationToken cancellationToken)

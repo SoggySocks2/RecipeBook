@@ -57,7 +57,7 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
             return userAccount;
         }
 
-        public async Task DeleteAsync(UserAccount userAccount, CancellationToken cancellationToken)
+        public async Task DeleteByIdAsync(UserAccount userAccount, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
