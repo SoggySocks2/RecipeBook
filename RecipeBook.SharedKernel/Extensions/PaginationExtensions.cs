@@ -9,20 +9,20 @@ namespace RecipeBook.SharedKernel.Extensions
 {
     public static class PaginationExtensions
     {
-        public static IQueryable<T> ApplyOrderingAndPaging<T>(this IQueryable<T> source, PaginationFilter filter, int itemsCount)
+        public static IQueryable<T> ApplyOrderingAndPaging<T>(this IQueryable<T> source, PaginationFilter paginationFilter, int itemsCount)
         {
-            source = ApplyOrdering(source, filter.SortBy, filter.OrderBy);
-            return ApplyPaging(source, filter.PageSize, filter.Page, itemsCount);
+            source = ApplyOrdering(source, paginationFilter.SortBy, paginationFilter.OrderBy);
+            return ApplyPaging(source, paginationFilter.PageSize, paginationFilter.Page, itemsCount);
         }
 
-        public static IQueryable<T> ApplyPaging<T>(this IQueryable<T> source, PaginationFilter filter, int itemsCount)
+        public static IQueryable<T> ApplyPaging<T>(this IQueryable<T> source, PaginationFilter paginationFilter, int itemsCount)
         {
-            return ApplyPaging(source, filter.PageSize, filter.Page, itemsCount);
+            return ApplyPaging(source, paginationFilter.PageSize, paginationFilter.Page, itemsCount);
         }
 
-        public static IQueryable<T> ApplyOrdering<T>(this IQueryable<T> source, PaginationFilter filter)
+        public static IQueryable<T> ApplyOrdering<T>(this IQueryable<T> source, PaginationFilter paginationFilter)
         {
-            return ApplyOrdering(source, filter.SortBy, filter.OrderBy);
+            return ApplyOrdering(source, paginationFilter.SortBy, paginationFilter.OrderBy);
         }
 
         public static IQueryable<T> ApplyPaging<T>(this IQueryable<T> source, int? pageSize, int? page, int itemsCount)

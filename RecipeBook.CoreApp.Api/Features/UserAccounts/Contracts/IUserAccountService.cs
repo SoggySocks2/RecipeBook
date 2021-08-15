@@ -14,7 +14,7 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Contracts
         Task<UserAccountDto> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task<UserAccountDto> UpdateAsync(UserAccountDto userAccountDto, CancellationToken cancellationToken);
         Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken);
-        Task<PagedResponse<List<UserAccountDto>>> GetListAsync(PaginationFilter filter, CancellationToken cancellationToken);
+        Task<PagedResponse<List<UserAccountDto>>> GetListAsync(PaginationFilter paginationFilter, CancellationToken cancellationToken);
         Task<string> AuthenticateAsync(string jwtEncryptionKey, AuthenticationDto authenticationDto, CancellationToken cancellationToken = default);
     }
 }

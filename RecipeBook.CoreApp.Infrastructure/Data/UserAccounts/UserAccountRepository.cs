@@ -65,17 +65,17 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<PagedResponse<List<UserAccount>>> GetListAsync(PaginationFilter filter, CancellationToken cancellationToken)
+        public async Task<PagedResponse<List<UserAccount>>> GetListAsync(PaginationFilter paginationFilter, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             var count = await _dbContext.UserAccounts.CountAsync(cancellationToken);
 
             var data = await _dbContext.UserAccounts
-                .ApplyOrderingAndPaging(filter, count)
+                .ApplyOrderingAndPaging(paginationFilter, count)
                 .ToListAsync(cancellationToken);
 
-            return new PagedResponse<List<UserAccount>>(data, new Pagination(filter, count));
+            return new PagedResponse<List<UserAccount>>(data, new Pagination(paginationFilter, count));
         }
 
         /// <summary>

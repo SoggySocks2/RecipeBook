@@ -5,9 +5,19 @@ using System.Security.Claims;
 
 namespace RecipeBook.ApiGateway.Api.Features.Identity
 {
+    /// <summary>
+    /// Represents an authenticated user
+    /// </summary>
     public class AuthenticatedUser : IAuthenticatedUser
     {
+        /// <summary>
+        /// User account id
+        /// </summary>
         public Guid Id { get; private set;  }
+
+        /// <summary>
+        /// User first name & last name
+        /// </summary>
         public string Name { get; private set; }
 
         public AuthenticatedUser()
@@ -16,6 +26,10 @@ namespace RecipeBook.ApiGateway.Api.Features.Identity
             Name = string.Empty;
         }
 
+        /// <summary>
+        /// Check for an authenticated user and set appropriate properties
+        /// </summary>
+        /// <param name="httpContextAccessor"></param>
         public AuthenticatedUser(IHttpContextAccessor httpContextAccessor)
         {
             if (httpContextAccessor is null)

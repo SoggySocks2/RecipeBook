@@ -77,9 +77,9 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
             await _userAccountRepository.DeleteAsync(userAccount, cancellationToken);
         }
 
-        public async Task<PagedResponse<List<UserAccountDto>>> GetListAsync(PaginationFilter filter, CancellationToken cancellationToken)
+        public async Task<PagedResponse<List<UserAccountDto>>> GetListAsync(PaginationFilter paginationFilter, CancellationToken cancellationToken)
         {
-            var userAccounts = await _userAccountRepository.GetListAsync(filter, cancellationToken);
+            var userAccounts = await _userAccountRepository.GetListAsync(paginationFilter, cancellationToken);
 
             var data = _mapper.Map<List<UserAccountDto>>(userAccounts.Data);
 

@@ -13,7 +13,7 @@ namespace RecipeBook.CoreApp.Domain.UserAccounts.Contracts
         Task<UserAccount> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task<UserAccount> UpdateAsync(UserAccount userAccount, CancellationToken cancellationToken);
         Task DeleteAsync(UserAccount userAccount, CancellationToken cancellationToken);
-        Task<PagedResponse<List<UserAccount>>> GetListAsync(PaginationFilter filter, CancellationToken cancellationToken);
+        Task<PagedResponse<List<UserAccount>>> GetListAsync(PaginationFilter paginationFilter, CancellationToken cancellationToken);
         Task<UserAccount> AuthenticateAsync(string username, string password, CancellationToken cancellationToken);
     }
 }

@@ -1,5 +1,8 @@
 ﻿namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Models
 {
+    /// <summary>
+    /// Properties common to both new and existing user accounts
+    /// </summary>
     public class UserAccountModel
     {
         public string Firstname { get; set; }

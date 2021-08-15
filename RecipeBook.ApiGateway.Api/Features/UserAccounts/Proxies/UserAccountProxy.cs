@@ -13,6 +13,10 @@ using System.Threading.Tasks;
 
 namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Proxies
 {
+    /// <summary>
+    /// The project is structure to allow for micro service architecture if required so we use a proxy to determine
+    /// how to communicate with the CoreApp.Api. I.e. via http or a direct reference
+    /// </summary>
     public class UserAccountProxy : IUserAccountProxy
     {
         private readonly IConfiguration _configuration;
@@ -54,9 +58,9 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Proxies
             await _userAccountService.DeleteByIdAsync(id, cancellationToken);
         }
 
-        public async Task<PagedResponse<List<ExistingUserAccountModel>>> GetListAsync(PaginationFilter filter, CancellationToken cancellationToken)
+        public async Task<PagedResponse<List<ExistingUserAccountModel>>> GetListAsync(PaginationFilter paginationFilter, CancellationToken cancellationToken)
         {
-            var userAccounts = await _userAccountService.GetListAsync(filter, cancellationToken);
+            var userAccounts = await _userAccountService.GetListAsync(paginationFilter, cancellationToken);
 
             var data = _mapper.Map<List<ExistingUserAccountModel>>(userAccounts.Data);
 
@@ -65,11 +69,11 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Proxies
 
         public async Task<string> AuthenticateAsync(AuthenticationModel authenticationModel, CancellationToken cancellationToken)
         {
-            //var salt = _configuration.GetValue<string>("Salt");
             var encryptionKey = _configuration.GetValue<string>("JWTEncryptionKey");
 
             var authDto = _mapper.Map<AuthenticationDto>(authenticationModel);
             var token = await _userAccountService.AuthenticateAsync(encryptionKey, authDto, cancellationToken);
+
             return token;
         }
     }
