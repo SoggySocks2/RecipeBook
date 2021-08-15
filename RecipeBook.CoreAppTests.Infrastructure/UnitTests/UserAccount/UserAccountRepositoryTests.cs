@@ -1,35 +1,36 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using RecipeBook.ApiGateway.Api.Features.Identity;
 using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
 using RecipeBook.CoreApp.Infrastructure.Data;
 using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts;
+using RecipeBook.CoreAppTests.Shared.UserAccounts.Builders;
 using RecipeBook.SharedKernel.CustomExceptions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace RecipeBook.CoreAppTests.Infrastructure.UnitTests
+namespace RecipeBook.CoreAppTests.Infrastructure.UnitTests.UserAccount
 {
-    public class AuthRepositoryTests
+    public class UserAccountRepositoryTests
     {
         private readonly CoreDbContext _dbContext;
-        private readonly IUserAccountRepository _authRepo;
+        private readonly IUserAccountRepository _userAccountRepository;
 
         private readonly string _userName = $"Test Username {Guid.NewGuid()}";
         private readonly string _password = Guid.NewGuid().ToString();
 
-        public AuthRepositoryTests(IConfiguration configuration)
+        public UserAccountRepositoryTests()
         {
             var dbOptions = new DbContextOptionsBuilder<CoreDbContext>()
                 .UseInMemoryDatabase(databaseName: "RecipeBook")
                 .Options;
 
-            var authenticatedUser = new AuthenticatedUser(); ;
+            var authenticatedUser = new AuthenticatedUserBuilder().WithTestValues().Build();
             _dbContext = new CoreDbContext(dbOptions, authenticatedUser);
-            _authRepo = new UserAccountRepository(configuration, _dbContext);
+
+            var iConfiguration = new Shared.UserAccounts.Builders.IConfigurationBuilder().WithTestValues().Build();
+            _userAccountRepository = new UserAccountRepository(iConfiguration, _dbContext);
         }
 
         [Fact]
@@ -37,7 +38,7 @@ namespace RecipeBook.CoreAppTests.Infrastructure.UnitTests
         {
             Func<Task> userAccount = async () =>
             {
-                _ = await _authRepo.AuthenticateAsync(string.Empty, _password, CancellationToken.None);
+                _ = await _userAccountRepository.AuthenticateAsync(string.Empty, _password, CancellationToken.None);
             };
 
             userAccount.Should().Throw<EmptyInputException>()
@@ -49,7 +50,7 @@ namespace RecipeBook.CoreAppTests.Infrastructure.UnitTests
         {
             Func<Task> userAccount = async () =>
             {
-                _ = await _authRepo.AuthenticateAsync(_userName, string.Empty, CancellationToken.None);
+                _ = await _userAccountRepository.AuthenticateAsync(_userName, string.Empty, CancellationToken.None);
             };
 
             userAccount.Should().Throw<EmptyInputException>()
