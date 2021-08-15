@@ -1,18 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts.Seeds;
 using RecipeBook.SharedKernel.Contracts;
 using System;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace RecipeBook.CoreApp.Infrastructure.Data
 {
     public class CoreDbInitializer
     {
+        private readonly IConfiguration _configuration;
         private readonly CoreDbContext _dbContext;
         private readonly ILogWriter _logWriter;
 
-        public CoreDbInitializer(CoreDbContext dbContext, ILogWriter logWriter)
+        public CoreDbInitializer(IConfiguration configuration, CoreDbContext dbContext, ILogWriter logWriter)
         {
+            _configuration = configuration;
             _dbContext = dbContext;
             _logWriter = logWriter;
         }
@@ -42,9 +46,26 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
         {
             if (! await _dbContext.UserAccounts.AnyAsync())
             {
-                _dbContext.UserAccounts.AddRange(UserAccountSeed.GetUserAccounts("Firstname_", "Lastname_", "Username_", "Password", "Admin"));
+                var hashedPassword = HashPassword("Password");
+                _dbContext.UserAccounts.AddRange(UserAccountSeed.GetUserAccounts("Firstname_", "Lastname_", "Username_", hashedPassword, "Admin"));
                 await _dbContext.SaveChangesAsync();
             }
+        }
+
+        /// <summary>
+        /// Create a one way hashed password
+        /// </summary>
+        private string HashPassword(string password)
+        {
+            var salt = _configuration.GetValue<string>("Salt");
+
+            var nIterations = 23;
+            var nHash = 7;
+
+            var saltBytes = Convert.FromBase64String(salt);
+
+            using var rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, saltBytes, nIterations);
+            return Convert.ToBase64String(rfc2898DeriveBytes.GetBytes(nHash));
         }
     }
 }
