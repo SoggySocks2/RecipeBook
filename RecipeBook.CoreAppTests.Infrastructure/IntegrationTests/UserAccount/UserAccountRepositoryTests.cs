@@ -57,7 +57,7 @@ namespace RecipeBook.CoreAppTests.Infrastructure.IntegrationTests.UserAccount
 
             id.Should().NotBe(Guid.Empty);
 
-            var userAccount = await _userAccountRepository.AuthenticateAsync(testUserAccount.Username, password, CancellationToken.None);
+            var userAccount = await _userAccountRepository.AuthenticateAsync(testUserAccount.UserName, password, CancellationToken.None);
 
             userAccount.Id.Should().NotBe(Guid.Empty);
             userAccount.Person.FirstName.Should().Be(testUserAccount.Person.FirstName);
@@ -122,7 +122,7 @@ namespace RecipeBook.CoreAppTests.Infrastructure.IntegrationTests.UserAccount
 
             var updatedUserAccount = await _userAccountRepository.UpdateAsync(userAccount, CancellationToken.None);
 
-            updatedUserAccount.Username.Should().Be(userName);
+            updatedUserAccount.UserName.Should().Be(userName);
             updatedUserAccount.Person.FirstName.Should().Be(firstName);
             updatedUserAccount.Person.LastName.Should().Be(lastName);
             updatedUserAccount.Role.Should().Be(role);
@@ -136,7 +136,7 @@ namespace RecipeBook.CoreAppTests.Infrastructure.IntegrationTests.UserAccount
             var password = "Test Password";
             var testUserAccount = new UserAccountBuilder()
                                     .WithTestValues()
-                                    .WithUsername(userName)
+                                    .WithUserName(userName)
                                     .WithPassword(password)
                                     .Build();
 

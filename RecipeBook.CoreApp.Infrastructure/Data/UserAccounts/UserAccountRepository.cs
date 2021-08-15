@@ -33,7 +33,7 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
             cancellationToken.ThrowIfCancellationRequested();
 
             var hashedPassword = HashPassword(userAccount.Password);
-            userAccount.UpdateLoginCredentials(userAccount.Username, hashedPassword);
+            userAccount.UpdateLoginCredentials(userAccount.UserName, hashedPassword);
 
             await _dbContext.AddAsync(userAccount, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
@@ -88,7 +88,7 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
 
             var hashedPassword = HashPassword(password);
 
-            var userAccount = await _dbContext.UserAccounts.FirstOrDefaultAsync(x => x.Username == userName && x.Password == hashedPassword, cancellationToken);
+            var userAccount = await _dbContext.UserAccounts.FirstOrDefaultAsync(x => x.UserName == userName && x.Password == hashedPassword, cancellationToken);
 
             if (userAccount == default)
             {
