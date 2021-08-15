@@ -1,7 +1,5 @@
 ﻿using RecipeBook.SharedKernel.BaseClasses;
 using RecipeBook.SharedKernel.CustomExceptions;
-using System;
-using System.Security.Cryptography;
 
 namespace RecipeBook.CoreApp.Domain.UserAccounts
 {

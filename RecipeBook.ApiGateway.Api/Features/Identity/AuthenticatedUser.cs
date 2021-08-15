@@ -26,6 +26,12 @@ namespace RecipeBook.ApiGateway.Api.Features.Identity
             Name = string.Empty;
         }
 
+        public AuthenticatedUser(Guid id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
         /// <summary>
         /// Check for an authenticated user and set appropriate properties
         /// </summary>
