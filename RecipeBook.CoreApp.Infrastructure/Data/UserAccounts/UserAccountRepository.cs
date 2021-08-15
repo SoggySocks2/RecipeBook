@@ -102,8 +102,10 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
         /// <summary>
         /// Create a one way hashed password
         /// </summary>
-        private string HashPassword(string password)
+        public string HashPassword(string password)
         {
+            if (string.IsNullOrWhiteSpace(password)) throw new EmptyInputException($"{nameof(password)} is required");
+
             var salt = _configuration.GetValue<string>("Salt");
 
             var nIterations = 23;

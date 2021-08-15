@@ -56,5 +56,29 @@ namespace RecipeBook.CoreAppTests.Infrastructure.UnitTests.UserAccount
             userAccount.Should().Throw<EmptyInputException>()
                 .WithMessage("password is required");
         }
+
+        [Fact]
+        public void HashPassword_WhenPasswordIsMissing_ThrowsEmptyInputException()
+        {
+            var repo = (UserAccountRepository)_userAccountRepository;
+
+            Action act = () => repo.HashPassword(string.Empty);
+
+            act.Should().Throw<EmptyInputException>()
+                .WithMessage("password is required");
+        }
+
+        [Theory]
+        [InlineData("Passord1")]
+        [InlineData("sasJJ12318")]
+        [InlineData("!@#&4%£/.")]
+        public void HashPassword_WhenPasswordPresent_HashesPassword(string password)
+        {
+            var repo = (UserAccountRepository)_userAccountRepository;
+            var hashedPassword1 = repo.HashPassword(password);
+            var hashedPassword2 = repo.HashPassword(password);
+
+            hashedPassword1.Should().Equals(hashedPassword2);
+        }
     }
 }
