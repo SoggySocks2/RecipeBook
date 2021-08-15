@@ -7,6 +7,9 @@ using System.Reflection;
 
 namespace RecipeBook.CoreApp.Infrastructure.Data.Extensions
 {
+    /// <summary>
+    /// Automatically have EF filter deleted data
+    /// </summary>
     public static class SoftDeleteQueryExtension
     {
         public static void AddSoftDeleteQueryFilter(this IMutableEntityType entityData)

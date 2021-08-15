@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
 {
+    /// <summary>
+    /// Provides CRUD operations against the user account table
+    /// </summary>
     public class UserAccountRepository : IUserAccountRepository
     {
         private readonly CoreDbContext _dbContext;
@@ -21,10 +24,6 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
             _dbContext = dbContext;
         }
 
-        /// <summary>
-        /// Add a new user account
-        /// </summary>
-        /// <returns>Newly created user account</returns>
         public async Task<UserAccount> AddAsync(UserAccount userAccount, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -35,11 +34,6 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
             return userAccount;
         }
 
-        /// <summary>
-        /// Get a specific user account
-        /// </summary>
-        /// <param name="id">User account id</param>
-        /// <returns>User account</returns>
         public async Task<UserAccount> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -77,14 +71,6 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts
 
             return new PagedResponse<List<UserAccount>>(data, new Pagination(paginationFilter, count));
         }
-
-        /// <summary>
-        /// Authenticate a user account
-        /// </summary>
-        /// <param name="userName">Authentication username</param>
-        /// <param name="password">Authentication password</param>
-        /// <param name="salt">Salt used to hash the authentication password</param>
-        /// <returns>Authenticate user account</returns>
 
         public async Task<UserAccount> AuthenticateAsync(string userName, string password, CancellationToken cancellationToken)
         {

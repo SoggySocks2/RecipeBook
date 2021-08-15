@@ -10,15 +10,12 @@ namespace RecipeBook.CoreApp.Infrastructure.Data.UserAccounts.Configuration
         {
             builder.ToTable(nameof(UserAccount));
 
+            // User account has a person value object
             builder.OwnsOne(x => x.Person, cb =>
             {
                 cb.Property(p => p.FirstName).HasColumnName("FirstName");
                 cb.Property(p => p.LastName).HasColumnName("LastName");
             });
-
-            //builder.Property(x => x.Username).HasMaxLength(50);
-            //builder.Property(x => x.Password).HasMaxLength(30);
-            //builder.Property(x => x.Role).HasMaxLength(50);
 
             builder.Property(x => x.IsDeleted).HasDefaultValue(false);
 
