@@ -17,6 +17,9 @@ using System.Threading.Tasks;
 
 namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
 {
+    /// <summary>
+    /// Provides access to repositories
+    /// </summary>
     public class UserAccountService : IUserAccountService
     {
         private readonly IMapper _mapper;
