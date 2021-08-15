@@ -164,7 +164,7 @@ namespace RecipeBook.CoreAppTests.Domain.UnitTests.UserAccounts
 
             userAccount.UpdateLoginCredentials(userName, password);
 
-            userAccount.Username.Should().Equals(userName);
+            userAccount.UserName.Should().Equals(userName);
             userAccount.Password.Should().Equals(password);
         }
     }

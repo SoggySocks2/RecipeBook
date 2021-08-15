@@ -9,7 +9,7 @@ namespace RecipeBook.CoreApp.Domain.UserAccounts
     public class UserAccount : BaseEntity
     {
         public Person Person { get; private set; }
-        public string Username { get; private set; }
+        public string UserName { get; private set; }
         public string Password { get; private set; }
         public string Role { get; private set; }
 
@@ -28,7 +28,7 @@ namespace RecipeBook.CoreApp.Domain.UserAccounts
             if (string.IsNullOrWhiteSpace(role)) throw new EmptyInputException($"{nameof(role)} is required");
 
             UpdatePersonDetails(person);
-            Username = username;
+            UserName = username;
             Password = password;
             Role = role;
         }
@@ -61,9 +61,9 @@ namespace RecipeBook.CoreApp.Domain.UserAccounts
             if (string.IsNullOrWhiteSpace(password)) throw new EmptyInputException($"{nameof(password)} is required");
 
             /* Only update if it's different so that EF doesn't perform a DB update */
-            if (Username == null || !username.Equals(Username))
+            if (UserName == null || !username.Equals(UserName))
             {
-                Username = username;
+                UserName = username;
             }
             if (Password == null || !password.Equals(Password))
             {

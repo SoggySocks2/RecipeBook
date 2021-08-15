@@ -16,19 +16,19 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Mapping
             CreateMap<UserAccountDto, UserAccount>()
                 .ConvertUsing((source, dest, context) =>
                     {
-                        var person = new Person(source.Firstname, source.Lastname);
+                        var person = new Person(source.FirstName, source.LastName);
 
                         if (dest is UserAccount userAccount)
                         {
                             // Update existing user
                             userAccount.UpdatePersonDetails(person);
                             userAccount.UpdateRole(source.Role);
-                            userAccount.UpdateLoginCredentials(source.Username, source.Password);
+                            userAccount.UpdateLoginCredentials(source.UserName, source.Password);
                             return userAccount;
                         }
 
                         // Create a new user
-                        return new UserAccount(person, source.Username, source.Password, source.Role);
+                        return new UserAccount(person, source.UserName, source.Password, source.Role);
                     });
         }
     }
