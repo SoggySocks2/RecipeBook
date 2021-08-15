@@ -7,6 +7,9 @@ using System.Reflection;
 
 namespace RecipeBook.SharedKernel.Extensions
 {
+    /// <summary>
+    /// Setup paging, sorting and ordering for paged responses 
+    /// </summary>
     public static class PaginationExtensions
     {
         public static IQueryable<T> ApplyOrderingAndPaging<T>(this IQueryable<T> source, PaginationFilter paginationFilter, int itemsCount)

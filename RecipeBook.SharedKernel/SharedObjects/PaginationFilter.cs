@@ -1,5 +1,8 @@
 ﻿namespace RecipeBook.SharedKernel.SharedObjects
 {
+    /// <summary>
+    /// Filters used when paginating data
+    /// </summary>
     public class PaginationFilter
     {
         public int? Page { get; set; }

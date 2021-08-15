@@ -2,6 +2,9 @@
 
 namespace RecipeBook.SharedKernel.SharedObjects
 {
+    /// <summary>
+    /// Various calculations for paged responses
+    /// </summary>
     public static class PaginationHelper
     {
         private static readonly object _lock = new();

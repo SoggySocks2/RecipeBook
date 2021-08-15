@@ -52,11 +52,6 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
                 _logWriter.LogWarning("Empty Input: " + ex.Message);
                 return BadRequest("Empty Input: " + ex.Message);
             }
-            catch (InvalidValueException ex)
-            {
-                _logWriter.LogWarning("Invalid Value: " + ex.Message);
-                return BadRequest("Invalid Value: " + ex.Message);
-            }
             catch (NotFoundException ex)
             {
                 _logWriter.LogWarning("Not Found: " + ex.Message);
@@ -135,11 +130,6 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
                 _logWriter.LogWarning("Empty Input: " + ex.Message);
                 return BadRequest("Empty Input: " + ex.Message);
             }
-            catch (InvalidValueException ex)
-            {
-                _logWriter.LogWarning("Invalid Value: " + ex.Message);
-                return BadRequest("Invalid Value: " + ex.Message);
-            }
             catch (NotFoundException ex)
             {
                 _logWriter.LogWarning("Not Found: " + ex.Message);
@@ -180,11 +170,6 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
             {
                 _logWriter.LogWarning("Empty Input: " + ex.Message);
                 return BadRequest("Empty Input: " + ex.Message);
-            }
-            catch (InvalidValueException ex)
-            {
-                _logWriter.LogWarning("Invalid Value: " + ex.Message);
-                return BadRequest("Invalid Value: " + ex.Message);
             }
             catch (NotFoundException ex)
             {

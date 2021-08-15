@@ -2,6 +2,9 @@
 
 namespace RecipeBook.SharedKernel.CustomExceptions
 {
+    /// <summary>
+    /// Thrown when user authentication fails
+    /// </summary>
     public class AuthenticateException : BaseException
     {
         public AuthenticateException()
