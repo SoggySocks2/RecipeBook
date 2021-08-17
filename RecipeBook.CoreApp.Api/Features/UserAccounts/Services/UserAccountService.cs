@@ -27,7 +27,7 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
 
         public UserAccountService(IMapper mapper, IUserAccountRepository userAccountRepository)
         {
-            if (mapper is null) throw new EmptyInputException($"{nameof(mapper)} is null");
+            if (mapper is null) throw new EmptyInputException($"{nameof(mapper)} is required");
             if (userAccountRepository is null) throw new EmptyInputException($"{nameof(userAccountRepository)} is required");
 
             _mapper = mapper;
@@ -40,14 +40,14 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
 
             var newUserAccount = _mapper.Map<UserAccount>(userAccountDto);
 
-            await _userAccountRepository.AddAsync(newUserAccount, cancellationToken);
+            var userAccount = await _userAccountRepository.AddAsync(newUserAccount, cancellationToken);
 
-            return _mapper.Map<UserAccountDto>(newUserAccount);
+            return _mapper.Map<UserAccountDto>(userAccount);
         }
 
         public async Task<UserAccountDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            if (id == Guid.Empty) throw new EmptyInputException($"{nameof(id)} is requried");
+            if (id == Guid.Empty) throw new EmptyInputException($"{nameof(id)} is required");
 
             var userAccount = await _userAccountRepository.GetByIdAsync(id, cancellationToken);
 
@@ -65,8 +65,8 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
             if (userAccount is null || userAccount.Id != userAccountDto.Id) throw new NotFoundException("User account not found");
 
             _mapper.Map(userAccountDto, userAccount);
-            await _userAccountRepository.UpdateAsync(userAccount, cancellationToken);
-            return _mapper.Map<UserAccountDto>(userAccount);
+            var updatedUserAccount = await _userAccountRepository.UpdateAsync(userAccount, cancellationToken);
+            return _mapper.Map<UserAccountDto>(updatedUserAccount);
         }
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -93,12 +93,12 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (string.IsNullOrWhiteSpace(jwtEncryptionKey)) throw new EmptyInputException($"{nameof(jwtEncryptionKey)} is jwtEncryptionKey");
+            if (string.IsNullOrWhiteSpace(jwtEncryptionKey)) throw new EmptyInputException($"{nameof(jwtEncryptionKey)} is required");
             if (authenticationDto is null) throw new EmptyInputException($"{nameof(authenticationDto)} is required");
-            if (string.IsNullOrWhiteSpace(authenticationDto.Username)) throw new EmptyInputException($"{nameof(authenticationDto.Username)} is required");
+            if (string.IsNullOrWhiteSpace(authenticationDto.UserName)) throw new EmptyInputException($"{nameof(authenticationDto.UserName)} is required");
             if (string.IsNullOrWhiteSpace(authenticationDto.Password)) throw new EmptyInputException($"{nameof(authenticationDto.Password)} is required");
 
-            var authenticatedUserAccount = await _userAccountRepository.AuthenticateAsync(authenticationDto.Username, authenticationDto.Password, cancellationToken);
+            var authenticatedUserAccount = await _userAccountRepository.AuthenticateAsync(authenticationDto.UserName, authenticationDto.Password, cancellationToken);
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(jwtEncryptionKey);
