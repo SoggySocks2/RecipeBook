@@ -14,6 +14,7 @@ namespace RecipeBook.CoreAppTests.Shared.UserAccounts.Builders
                 {
                     //[$"AppConfiguration:Salt"] = "MDxNyrhRlHee7I0CTW9fzVk=",
                     [$"Salt"] = "MDxNyrhRlHee7I0CTW9fzVk=",
+                    [$"JWTEncryptionKey"] = "57FAF374-B579-4828-ACCD-A7E43C559AAB",
                 };
 
             return this;
@@ -21,7 +22,7 @@ namespace RecipeBook.CoreAppTests.Shared.UserAccounts.Builders
 
         public IConfiguration Build()
         {
-            Microsoft.Extensions.Configuration.ConfigurationBuilder configurationBuilder = new();
+            ConfigurationBuilder configurationBuilder = new();
             configurationBuilder.AddInMemoryCollection(DefaultConfigurationStrings);
             return configurationBuilder.Build();
         }

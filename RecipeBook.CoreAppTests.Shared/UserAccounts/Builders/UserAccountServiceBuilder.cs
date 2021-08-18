@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Moq;
 using RecipeBook.CoreApp.Api.Features.UserAccounts.Mapping;
-using RecipeBook.CoreApp.Api.Features.UserAccounts.Models;
 using RecipeBook.CoreApp.Api.Features.UserAccounts.Services;
 using RecipeBook.CoreApp.Domain.UserAccounts;
 using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
