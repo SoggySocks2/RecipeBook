@@ -29,7 +29,7 @@ namespace RecipeBook.CoreAppTests.Infrastructure.UnitTests.UserAccount
             var authenticatedUser = new AuthenticatedUserBuilder().WithTestValues().Build();
             _dbContext = new CoreDbContext(dbOptions, authenticatedUser);
 
-            var iConfiguration = new Shared.UserAccounts.Builders.IConfigurationBuilder().WithTestValues().Build();
+            var iConfiguration = new IConfigurationBuilder().WithTestValues().Build();
             _userAccountRepository = new UserAccountRepository(iConfiguration, _dbContext);
         }
 

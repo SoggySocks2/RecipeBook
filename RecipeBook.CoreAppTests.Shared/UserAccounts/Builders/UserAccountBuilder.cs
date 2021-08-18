@@ -11,6 +11,11 @@ namespace RecipeBook.CoreAppTests.Shared.UserAccounts.Builders
         private string Password { get; set; }
         private string Role { get; set; }
 
+        private DateTime Created { get; set; }
+        private Guid CreatedBy { get; set; }
+        private DateTime Modified { get; set; }
+        private Guid ModifiedBy { get; set; }
+
         public UserAccountBuilder WithTestValues()
         {
             Id = Guid.NewGuid();
@@ -18,6 +23,10 @@ namespace RecipeBook.CoreAppTests.Shared.UserAccounts.Builders
             UserName = "Test Username";
             Password = "Test Password";
             Role = "Admin";
+            Created = DateTime.Now;
+            CreatedBy = Guid.NewGuid();
+            Modified = Created;
+            ModifiedBy = CreatedBy;
             return this;
         }
         public UserAccountBuilder WithId(Guid id)
@@ -45,10 +54,34 @@ namespace RecipeBook.CoreAppTests.Shared.UserAccounts.Builders
             Role = role;
             return this;
         }
+        public UserAccountBuilder WithCreated(DateTime created)
+        {
+            Created = created;
+            return this;
+        }
+        public UserAccountBuilder WithCreatedBy(Guid createdBy)
+        {
+            CreatedBy = createdBy;
+            return this;
+        }
+        public UserAccountBuilder WithModified(DateTime modified)
+        {
+            Modified = modified;
+            return this;
+        }
+        public UserAccountBuilder WithModifiedBy(Guid codifiedBy)
+        {
+            ModifiedBy = codifiedBy;
+            return this;
+        }
         public UserAccount Build()
         {
             var userAcount = new UserAccount(Person, UserName, Password, Role);
             userAcount.GetType().GetProperty("Id").SetValue(userAcount, Id);
+            userAcount.Created = Created;
+            userAcount.CreatedBy = CreatedBy;
+            userAcount.Modified = Modified;
+            userAcount.ModifiedBy = ModifiedBy;
 
             return userAcount;
         }
