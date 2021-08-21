@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace RecipeBook.CoreAppTests.Infrastructure.UnitTests.UserAccount
+namespace RecipeBook.CoreAppTests.Infrastructure.UnitTests.UserAccounts
 {
     public class UserAccountRepositoryTests
     {

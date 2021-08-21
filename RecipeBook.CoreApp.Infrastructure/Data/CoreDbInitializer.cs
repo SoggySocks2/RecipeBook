@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using RecipeBook.CoreApp.Infrastructure.Data.Recipes.Seeds;
 using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts.Seeds;
 using RecipeBook.SharedKernel.Contracts;
 using System;
@@ -30,6 +31,7 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
             try
             {
                 await SeedUserAccount();
+                await SeedRecipeAggregate();
             }
             catch (Exception ex)
             {
@@ -48,6 +50,16 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
             {
                 var hashedPassword = HashPassword("Password");
                 _dbContext.UserAccounts.AddRange(UserAccountSeed.GetUserAccounts("Firstname_", "Lastname_", "Username_", hashedPassword, "Admin"));
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+
+        private async Task SeedRecipeAggregate()
+        {
+            // TODO: Authenticate first to ensure createdBy and modifiedBy are set 
+            if (!await _dbContext.Recipes.AnyAsync())
+            {
+                _dbContext.Recipes.AddRange(RecipeSeed.GetRecipes());
                 await _dbContext.SaveChangesAsync();
             }
         }
