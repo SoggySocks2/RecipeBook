@@ -3,8 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RecipeBook.CoreApp.Api.Features.UserAccounts.Contracts;
 using RecipeBook.CoreApp.Api.Features.UserAccounts.Services;
+using RecipeBook.CoreApp.Domain.Recipes.Contracts;
 using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
 using RecipeBook.CoreApp.Infrastructure.Data;
+using RecipeBook.CoreApp.Infrastructure.Data.Recipes;
 using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts;
 using RecipeBook.CoreApp.Infrastructure.Logging;
 using RecipeBook.SharedKernel.Contracts;
@@ -23,6 +25,7 @@ namespace RecipeBook.CoreApp.Api.Configuration
             services.AddScoped<CoreDbInitializer>();
 
             services.AddUserAccountServices();
+            services.AddRecipeServices();
 
             services.AddScoped<ILogWriter, LogWriter>();
 
@@ -37,6 +40,14 @@ namespace RecipeBook.CoreApp.Api.Configuration
 
             /* Authentication service to interface with the repository */
             services.AddScoped<IUserAccountService, UserAccountService>();
+        }
+        private static void AddRecipeServices(this IServiceCollection services)
+        {
+            /* Add recipe repository for all database activity */
+            services.AddScoped<IRecipeRepository, RecipeRepository>();
+
+            /* Authentication service to interface with the repository */
+            //services.AddScoped<IRecipeService, RecipeService>();
         }
     }
 }

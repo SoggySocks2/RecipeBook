@@ -12,7 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace RecipeBook.CoreAppTests.Infrastructure.IntegrationTests.UserAccount
+namespace RecipeBook.CoreAppTests.Infrastructure.IntegrationTests.UserAccounts
 {
     public class UserAccountRepositoryTests
     {

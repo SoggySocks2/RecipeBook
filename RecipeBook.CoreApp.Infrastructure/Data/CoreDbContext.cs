@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RecipeBook.CoreApp.Domain.Recipes;
 using RecipeBook.CoreApp.Domain.UserAccounts;
 using RecipeBook.CoreApp.Infrastructure.Data.Extensions;
+using RecipeBook.CoreApp.Infrastructure.Data.Recipes.Configuration;
 using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts.Configuration;
 using RecipeBook.SharedKernel.BaseClasses;
 using RecipeBook.SharedKernel.Contracts;
@@ -18,6 +20,13 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
 
         public DbSet<UserAccount> UserAccounts { get; set; }
 
+        #region Recipe Aggregate
+
+        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
+
+        #endregion
+
         public CoreDbContext(DbContextOptions<CoreDbContext> options, IAuthenticatedUser authenticatedUser) : base(options)
         {
             AuthenticatedUser = authenticatedUser;
@@ -33,6 +42,7 @@ namespace RecipeBook.CoreApp.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserAccountConfiguration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(RecipeConfiguration).Assembly);
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

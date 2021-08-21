@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Moq;
-using RecipeBook.ApiGateway.Api.Features.Identity;
+﻿using RecipeBook.ApiGateway.Api.Features.Identity;
 using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Security.Principal;
 
 namespace RecipeBook.CoreAppTests.Shared.UserAccounts.Builders
 {

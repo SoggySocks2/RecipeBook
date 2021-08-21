@@ -71,7 +71,7 @@ namespace RecipeBook.CoreAppTests.Shared.Recipes.Builders
                     recipe.AddIngredient(ingredient.Name, ingredient.UnitOfMeasure, ingredient.Qty);
 
                     // Locate existing ingredient and set the id
-                    recipe.Ingredients.FirstOrDefault(i => i.Name.Equals(ingredient.Name)).GetType().GetProperty("Id").SetValue(recipe.Ingredients.FirstOrDefault(i => i.Name.Equals(ingredient.Name)), Id);
+                    recipe.Ingredients.FirstOrDefault(i => i.Name.Equals(ingredient.Name)).GetType().GetProperty("Id").SetValue(recipe.Ingredients.FirstOrDefault(i => i.Name.Equals(ingredient.Name)), ingredient.Id);
                 }
             }
 
