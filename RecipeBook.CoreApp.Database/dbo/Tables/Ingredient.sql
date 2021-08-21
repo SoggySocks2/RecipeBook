@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Ingredient] (
     [Id]            UNIQUEIDENTIFIER NOT NULL,
     [RecipeId]      UNIQUEIDENTIFIER NOT NULL,
-    [Ingredient]    NVARCHAR (100)   NOT NULL,
+    [Name]    NVARCHAR (100)   NOT NULL,
     [UnitOfMeasure] NVARCHAR (50)    NOT NULL,
     [Qty]           SMALLINT         NOT NULL,
     [Created]       DATETIME         NOT NULL,
