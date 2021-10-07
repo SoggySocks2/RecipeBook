@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,7 +43,12 @@ namespace RecipeBook.ApiGateway.Api
             services.AddCoreAppServices(Configuration);
             services.AddAutoMapper(typeof(Startup).Assembly);
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(options =>
+                {
+                    options.RegisterValidatorsFromAssemblyContaining<Startup>();
+                    options.ImplicitlyValidateRootCollectionElements = true;
+                });
 
             services.AddApplicationInsightsTelemetry();
 
