@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using RecipeBook.CoreAppTests.Shared.UserAccounts.Builders;
-using RecipeBook.SharedKernel.CustomExceptions;
+using RecipeBook.SharedKernel.Exceptions;
 using System;
 using Xunit;
 

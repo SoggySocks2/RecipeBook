@@ -83,6 +83,8 @@ namespace RecipeBook.ApiGateway.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.ConfigureExceptionHandler();
+
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RecipeBook.ApiGateway.Api v1"));
 

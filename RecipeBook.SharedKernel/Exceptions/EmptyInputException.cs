@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RecipeBook.SharedKernel.CustomExceptions
+namespace RecipeBook.SharedKernel.Exceptions
 {
     /// <summary>
     /// Thrown when a required parameter is empty or null

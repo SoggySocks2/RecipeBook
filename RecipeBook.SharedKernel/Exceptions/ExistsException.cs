@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RecipeBook.SharedKernel.CustomExceptions
+namespace RecipeBook.SharedKernel.Exceptions
 {
     /// <summary>
     /// Thrown when attempting to add an item that already exists
