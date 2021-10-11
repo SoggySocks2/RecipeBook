@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RecipeBook.SharedKernel.CustomExceptions
+namespace RecipeBook.SharedKernel.Exceptions
 {
     /// <summary>
     /// Inherited by all custom exceptions to ensure a common entry point for shared logic

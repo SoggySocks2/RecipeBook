@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipeBook.ApiGateway.Api.Features.UserAccounts.Contracts;
 using RecipeBook.ApiGateway.Api.Features.UserAccounts.Models;
-using RecipeBook.SharedKernel.Contracts;
-using RecipeBook.SharedKernel.CustomExceptions;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,12 +15,10 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
     public class AuthenticationController : ControllerBase
     {
         private readonly IUserAccountProxy _proxy;
-        private readonly ILogWriter _logWriter;
 
-        public AuthenticationController(IUserAccountProxy proxy, ILogWriter logWriter)
+        public AuthenticationController(IUserAccountProxy proxy)
         {
             _proxy = proxy;
-            _logWriter = logWriter;
 
         }
 
@@ -41,32 +36,9 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
         {
             if (authenticationModel == null) return BadRequest($"{nameof(authenticationModel)} is required");
 
-            try
-            {
-                var tokenString = await _proxy.AuthenticateAsync(authenticationModel, cancellationToken);
+            var tokenString = await _proxy.AuthenticateAsync(authenticationModel, cancellationToken);
 
-                //TODO: log error asynchronously when an appropriate method exists
-                _logWriter.LogInformation($"{authenticationModel.Username} authenticated");
-                return Ok(new { Token = tokenString });
-            }
-            catch (EmptyInputException ex)
-            {
-                //TODO: log error asynchronously when an appropriate method exists
-                _logWriter.LogError($"Attempt to authenticate {authenticationModel.Username} failed: {ex.Message}");
-                return BadRequest($"Attempt to authenticate {authenticationModel.Username} failed: {ex.Message}");
-            }
-            catch (AuthenticateException ex)
-            {
-                //TODO: log error asynchronously when an appropriate method exists
-                _logWriter.LogError($"Attempt to authenticate {authenticationModel.Username} failed: {ex.Message}");
-                return Unauthorized("Authentication failed");
-            }
-            catch (Exception ex)
-            {
-                //TODO: log error asynchronously when an appropriate method exists
-                _logWriter.LogError($"Attempting to authenticate {authenticationModel.Username} failed: {ex.Message}");
-                return BadRequest("System error");
-            }
+            return Ok(new { Token = tokenString });
         }
     }
 }

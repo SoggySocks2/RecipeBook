@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RecipeBook.ApiGateway.Api.Features.UserAccounts.Contracts;
 using RecipeBook.ApiGateway.Api.Features.UserAccounts.Models;
-using RecipeBook.SharedKernel.Contracts;
-using RecipeBook.SharedKernel.CustomExceptions;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Threading;
@@ -16,12 +14,10 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
     public class UserAccountController : ControllerBase
     {
         private readonly IUserAccountProxy _proxy;
-        private readonly ILogWriter _logWriter;
 
-        public UserAccountController(IUserAccountProxy proxy, ILogWriter logWriter)
+        public UserAccountController(IUserAccountProxy proxy)
         {
             _proxy = proxy;
-            _logWriter = logWriter;
 
         }
 
@@ -37,31 +33,8 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
         {
             if (userAccount == null) return BadRequest($"{nameof(userAccount)} is required");
 
-            try
-            {
-                var result = await _proxy.AddAsync(userAccount, cancellationToken);
-                return Ok(result);
-            }
-            catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken)
-            {
-                _logWriter.LogInformation("Operation cancelled: " + ex.Message);
-                return BadRequest("Operation cancelled: " + ex.Message);
-            }
-            catch (EmptyInputException ex)
-            {
-                _logWriter.LogWarning("Empty Input: " + ex.Message);
-                return BadRequest("Empty Input: " + ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                _logWriter.LogWarning("Not Found: " + ex.Message);
-                return NotFound("Not Found: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logWriter.LogError("System error: " + ex.Message);
-                return BadRequest("System error");
-            }
+            var result = await _proxy.AddAsync(userAccount, cancellationToken);
+            return Ok(result);
         }
 
         /// <summary>
@@ -76,31 +49,8 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
         {
             if (id == Guid.Empty) return BadRequest($"{nameof(id)} is required");
 
-            try
-            {
-                var result = await _proxy.GetByIdAsync(id, cancellationToken);
-                return Ok(result);
-            }
-            catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken)
-            {
-                _logWriter.LogInformation("Operation cancelled: " + ex.Message);
-                return BadRequest("Operation cancelled: " + ex.Message);
-            }
-            catch (EmptyInputException ex)
-            {
-                _logWriter.LogWarning("Empty Input: " + ex.Message);
-                return BadRequest("Empty Input: " + ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                _logWriter.LogWarning("Not Found: " + ex.Message);
-                return NotFound("Not Found: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logWriter.LogError("System error: " + ex.Message);
-                return BadRequest("System error");
-            }
+            var result = await _proxy.GetByIdAsync(id, cancellationToken);
+            return Ok(result);
         }
 
         /// <summary>
@@ -113,33 +63,10 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] ExistingUserAccountModel userAccount, CancellationToken cancellationToken = default)
         {
-            if (userAccount == null || userAccount.Id != id) return BadRequest($"{(nameof(id))} is invalid");
+            if (userAccount?.Id != id) return BadRequest($"{(nameof(id))} is invalid");
 
-            try
-            {
-                var result = await _proxy.UpdateAsync(userAccount, cancellationToken);
-                return Ok(result);
-            }
-            catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken)
-            {
-                _logWriter.LogInformation("Operation cancelled: " + ex.Message);
-                return BadRequest("Operation cancelled: " + ex.Message);
-            }
-            catch (EmptyInputException ex)
-            {
-                _logWriter.LogWarning("Empty Input: " + ex.Message);
-                return BadRequest("Empty Input: " + ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                _logWriter.LogWarning("Not Found: " + ex.Message);
-                return NotFound("Not Found: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logWriter.LogError("System error: " + ex.Message);
-                return BadRequest("System error");
-            }
+            var result = await _proxy.UpdateAsync(userAccount, cancellationToken);
+            return Ok(result);
         }
 
         /// <summary>
@@ -156,31 +83,8 @@ namespace RecipeBook.ApiGateway.Api.Features.UserAccounts.Endpoints
         {
             if (id == Guid.Empty) return BadRequest($"{nameof(id)} is required");
 
-            try
-            {
-                await _proxy.DeleteByIdAsync(id, cancellationToken);
-                return Ok();
-            }
-            catch (OperationCanceledException ex) when (ex.CancellationToken == cancellationToken)
-            {
-                _logWriter.LogInformation("Operation cancelled: " + ex.Message);
-                return BadRequest("Operation cancelled: " + ex.Message);
-            }
-            catch (EmptyInputException ex)
-            {
-                _logWriter.LogWarning("Empty Input: " + ex.Message);
-                return BadRequest("Empty Input: " + ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                _logWriter.LogWarning("Not Found: " + ex.Message);
-                return NotFound("Not Found: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logWriter.LogError("System error: " + ex.Message);
-                return BadRequest("System error");
-            }
+            await _proxy.DeleteByIdAsync(id, cancellationToken);
+            return Ok();
         }
     }
 }

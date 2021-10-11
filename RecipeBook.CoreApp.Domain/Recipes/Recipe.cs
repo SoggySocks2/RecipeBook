@@ -1,6 +1,6 @@
 ﻿using RecipeBook.SharedKernel.BaseClasses;
 using RecipeBook.SharedKernel.Contracts;
-using RecipeBook.SharedKernel.CustomExceptions;
+using RecipeBook.SharedKernel.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

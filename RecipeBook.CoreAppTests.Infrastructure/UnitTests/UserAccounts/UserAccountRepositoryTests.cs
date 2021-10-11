@@ -4,7 +4,7 @@ using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
 using RecipeBook.CoreApp.Infrastructure.Data;
 using RecipeBook.CoreApp.Infrastructure.Data.UserAccounts;
 using RecipeBook.CoreAppTests.Shared.UserAccounts.Builders;
-using RecipeBook.SharedKernel.CustomExceptions;
+using RecipeBook.SharedKernel.Exceptions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

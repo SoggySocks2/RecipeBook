@@ -1,5 +1,5 @@
 ﻿using RecipeBook.SharedKernel.BaseClasses;
-using RecipeBook.SharedKernel.CustomExceptions;
+using RecipeBook.SharedKernel.Exceptions;
 using System;
 
 namespace RecipeBook.CoreApp.Domain.Recipes

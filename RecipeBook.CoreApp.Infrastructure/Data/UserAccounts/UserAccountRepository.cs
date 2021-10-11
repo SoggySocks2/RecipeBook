@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using RecipeBook.CoreApp.Domain.UserAccounts;
 using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
-using RecipeBook.SharedKernel.CustomExceptions;
+using RecipeBook.SharedKernel.Exceptions;
 using RecipeBook.SharedKernel.Extensions;
 using RecipeBook.SharedKernel.Responses;
 using RecipeBook.SharedKernel.SharedObjects;

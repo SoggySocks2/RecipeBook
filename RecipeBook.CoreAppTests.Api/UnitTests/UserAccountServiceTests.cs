@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using RecipeBook.CoreApp.Domain.UserAccounts;
 using RecipeBook.CoreAppTests.Shared.UserAccounts.Builders;
-using RecipeBook.SharedKernel.CustomExceptions;
+using RecipeBook.SharedKernel.Exceptions;
 using RecipeBook.SharedKernel.Responses;
 using RecipeBook.SharedKernel.SharedObjects;
 using System;
@@ -15,31 +15,31 @@ namespace RecipeBook.CoreAppTests.Api.UnitTests
     public class UserAccountServiceTests
     {
         [Fact]
-        public void Constructor_WithMapperNull_ThrowsEmptyInputException()
+        public void Constructor_WithMapperNull_ThrowsArgumentNullException()
         {
             Action act = () => new UserAccountServiceBuilder().WithTestValues().WithMapper(null).Build();
 
-            act.Should().Throw<EmptyInputException>()
-                .WithMessage("mapper is required");
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Required input mapper was null.");
         }
 
         [Fact]
-        public void Constructor_WithVehicleRepositoryNull_ThrowsEmptyInputException()
+        public void Constructor_WithVehicleRepositoryNull_ThrowsArgumentNullException()
         {
             Action act = () => new UserAccountServiceBuilder().WithTestValues().WithRepository(null).Build();
 
-            act.Should().Throw<EmptyInputException>()
-                .WithMessage("userAccountRepository is required");
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Required input userAccountRepository was null.");
         }
 
         [Fact]
-        public async Task AddAsync_WithInvalidUserAccountDto_ThrowsEmptyInputException()
+        public async Task AddAsync_WithInvalidUserAccountDto_ThrowsArgumentNullException()
         {
             var userAccountService = new UserAccountServiceBuilder().WithTestValues().Build();
 
             await userAccountService.Invoking(t => t.AddAsync(null, CancellationToken.None))
-                .Should().ThrowAsync<EmptyInputException>()
-                .WithMessage("userAccountDto is required");
+                .Should().ThrowAsync<ArgumentNullException>()
+                .WithMessage("Required input userAccountDto was null.");
         }
 
         [Fact]
@@ -57,13 +57,13 @@ namespace RecipeBook.CoreAppTests.Api.UnitTests
         }
 
         [Fact]
-        public async Task GetByIdAsync_WithInvalidId_ThrowsEmptyInputException()
+        public async Task GetByIdAsync_WithInvalidId_ThrowsArgumentException()
         {
             var userAccountService = new UserAccountServiceBuilder().WithTestValues().Build();
 
             await userAccountService.Invoking(t => t.GetByIdAsync(Guid.Empty, CancellationToken.None))
-                .Should().ThrowAsync<EmptyInputException>()
-                .WithMessage("id is required");
+                .Should().ThrowAsync<ArgumentException>()
+                .WithMessage("Required input id was empty. (Parameter 'id')");
         }
 
         [Fact]
@@ -72,8 +72,7 @@ namespace RecipeBook.CoreAppTests.Api.UnitTests
             var id = Guid.NewGuid();
             var userAccountService = new UserAccountServiceBuilder().WithTestValues().Setup_GetByIdAsync(id, null).Build();
             await userAccountService.Invoking(t => t.GetByIdAsync(id, CancellationToken.None))
-                .Should().ThrowAsync<NotFoundException>()
-                .WithMessage("User account not found");
+                .Should().ThrowAsync<NotFoundException>();
         }
 
         [Fact]
@@ -91,23 +90,23 @@ namespace RecipeBook.CoreAppTests.Api.UnitTests
 
 
         [Fact]
-        public async Task UpdateAsync_WithNullUserAccountDto_ThrowsEmptyInputException()
+        public async Task UpdateAsync_WithNullUserAccountDto_ThrowsArgumentNullException()
         {
             var userAccountService = new UserAccountServiceBuilder().WithTestValues().Build();
 
             await userAccountService.Invoking(t => t.UpdateAsync(null, CancellationToken.None))
-                .Should().ThrowAsync<EmptyInputException>()
-                .WithMessage("userAccountDto is required");
+                .Should().ThrowAsync<ArgumentNullException>()
+                .WithMessage("Required input userAccountDto was null.");
         }
 
         [Fact]
-        public async Task UpdateAsync_WithInvalidId_ThrowsEmptyInputException()
+        public async Task UpdateAsync_WithInvalidId_ThrowsArgumentException()
         {
             var userAccountService = new UserAccountServiceBuilder().WithTestValues().Build();
 
             await userAccountService.Invoking(t => t.GetByIdAsync(Guid.Empty, CancellationToken.None))
-                .Should().ThrowAsync<EmptyInputException>()
-                .WithMessage("id is required");
+                .Should().ThrowAsync<ArgumentException>()
+                .WithMessage("Required input id was empty. (Parameter 'id')");
         }
 
         [Fact]
@@ -131,13 +130,13 @@ namespace RecipeBook.CoreAppTests.Api.UnitTests
         }
 
         [Fact]
-        public async Task DeleteByIdAsync_WithInvalidId_ThrowsEmptyInputException()
+        public async Task DeleteByIdAsync_WithInvalidId_ThrowsArgumentException()
         {
             var userAccountService = new UserAccountServiceBuilder().WithTestValues().Build();
 
             await userAccountService.Invoking(t => t.DeleteByIdAsync(Guid.Empty, CancellationToken.None))
-                .Should().ThrowAsync<EmptyInputException>()
-                .WithMessage("id is required");
+                .Should().ThrowAsync<ArgumentException>()
+                .WithMessage("Required input id was empty. (Parameter 'id')");
         }
 
         [Fact]
@@ -179,7 +178,7 @@ namespace RecipeBook.CoreAppTests.Api.UnitTests
         }
 
         [Fact]
-        public async Task AuthenticateAsync_WithMissingJwtEncryptionKey_ThrowsEmptyInputException()
+        public async Task AuthenticateAsync_WithMissingJwtEncryptionKey_ThrowsArgumentException()
         {
             var userAccountService = new UserAccountServiceBuilder()
                                             .WithTestValues()
@@ -187,24 +186,24 @@ namespace RecipeBook.CoreAppTests.Api.UnitTests
 
             var authenticationDto = new AuthenticationDtoBuilder().WIthTestValues().Build();
             await userAccountService.Invoking(t => t.AuthenticateAsync(string.Empty, authenticationDto, CancellationToken.None))
-                .Should().ThrowAsync<EmptyInputException>()
-                .WithMessage("jwtEncryptionKey is required");
+                .Should().ThrowAsync<ArgumentException>()
+                .WithMessage("Required input jwtEncryptionKey was empty. (Parameter 'jwtEncryptionKey')");
         }
 
         [Fact]
-        public async Task AuthenticateAsync_WithNullAuthenticationDto_ThrowsEmptyInputException()
+        public async Task AuthenticateAsync_WithNullAuthenticationDto_ThrowsArgumentNullException()
         {
             var userAccountService = new UserAccountServiceBuilder()
                                             .WithTestValues()
                                             .Build();
 
             await userAccountService.Invoking(t => t.AuthenticateAsync(Guid.NewGuid().ToString(), null, CancellationToken.None))
-                .Should().ThrowAsync<EmptyInputException>()
-                .WithMessage("authenticationDto is required");
+                .Should().ThrowAsync<ArgumentNullException>()
+                .WithMessage("Required input authenticationDto was null.");
         }
 
         [Fact]
-        public async Task AuthenticateAsync_WithMissingUserName_ThrowsEmptyInputException()
+        public async Task AuthenticateAsync_WithMissingUserName_ThrowsArgumentException()
         {
             var userAccountService = new UserAccountServiceBuilder()
                                             .WithTestValues()
@@ -212,12 +211,12 @@ namespace RecipeBook.CoreAppTests.Api.UnitTests
 
             var authenticationDto = new AuthenticationDtoBuilder().WIthTestValues().WithUserName(string.Empty).Build();
             await userAccountService.Invoking(t => t.AuthenticateAsync(Guid.NewGuid().ToString(), authenticationDto, CancellationToken.None))
-                .Should().ThrowAsync<EmptyInputException>()
-                .WithMessage("Username is required");
+                .Should().ThrowAsync<ArgumentException>()
+                .WithMessage("Required input Username was empty. (Parameter 'Username')");
         }
 
         [Fact]
-        public async Task AuthenticateAsync_WithMissingPassword_ThrowsEmptyInputException()
+        public async Task AuthenticateAsync_WithMissingPassword_ThrowsArgumentException()
         {
             var userAccountService = new UserAccountServiceBuilder()
                                             .WithTestValues()
@@ -225,8 +224,8 @@ namespace RecipeBook.CoreAppTests.Api.UnitTests
 
             var authenticationDto = new AuthenticationDtoBuilder().WIthTestValues().WithPassword(string.Empty).Build();
             await userAccountService.Invoking(t => t.AuthenticateAsync(Guid.NewGuid().ToString(), authenticationDto, CancellationToken.None))
-                .Should().ThrowAsync<EmptyInputException>()
-                .WithMessage("Password is required");
+                .Should().ThrowAsync<ArgumentException>()
+                .WithMessage("Required input Password was empty. (Parameter 'Password')");
         }
 
         [Fact]

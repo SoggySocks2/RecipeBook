@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using RecipeBook.CoreAppTests.Shared.UserAccounts.Builders;
-using RecipeBook.SharedKernel.CustomExceptions;
+using RecipeBook.SharedKernel.Exceptions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -77,8 +77,7 @@ namespace RecipeBook.CoreAppTests.Api.IntegrationTests.UserAccounts
                 .Should().NotThrowAsync();
 
             await userAccountService.Invoking(t => t.GetByIdAsync(userAccountDto.Id, CancellationToken.None))
-                .Should().ThrowAsync<NotFoundException>()
-                .WithMessage("User account not found");
+                .Should().ThrowAsync<NotFoundException>();
         }
 
         [Fact]

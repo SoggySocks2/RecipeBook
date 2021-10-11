@@ -16,4 +16,8 @@
     <WarningsAsErrors />
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Exceptions\Helpers\" />
+  </ItemGroup>
+
 </Project>

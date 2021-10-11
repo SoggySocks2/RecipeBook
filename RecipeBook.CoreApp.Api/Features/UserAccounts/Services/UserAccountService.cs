@@ -4,7 +4,7 @@ using RecipeBook.CoreApp.Api.Features.UserAccounts.Contracts;
 using RecipeBook.CoreApp.Api.Features.UserAccounts.Models;
 using RecipeBook.CoreApp.Domain.UserAccounts;
 using RecipeBook.CoreApp.Domain.UserAccounts.Contracts;
-using RecipeBook.SharedKernel.CustomExceptions;
+using RecipeBook.SharedKernel.Exceptions.Helpers;
 using RecipeBook.SharedKernel.Responses;
 using RecipeBook.SharedKernel.SharedObjects;
 using System;
@@ -27,8 +27,8 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
 
         public UserAccountService(IMapper mapper, IUserAccountRepository userAccountRepository)
         {
-            if (mapper is null) throw new EmptyInputException($"{nameof(mapper)} is required");
-            if (userAccountRepository is null) throw new EmptyInputException($"{nameof(userAccountRepository)} is required");
+            Check.For.Null(mapper, nameof(mapper));
+            Check.For.Null(userAccountRepository, nameof(userAccountRepository));
 
             _mapper = mapper;
             _userAccountRepository = userAccountRepository;
@@ -36,7 +36,7 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
 
         public async Task<UserAccountDto> AddAsync(UserAccountDto userAccountDto, CancellationToken cancellationToken)
         {
-            if (userAccountDto is null) throw new EmptyInputException($"{nameof(userAccountDto)} is required");
+            Check.For.Null(userAccountDto, nameof(userAccountDto));
 
             var newUserAccount = _mapper.Map<UserAccount>(userAccountDto);
 
@@ -47,22 +47,23 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
 
         public async Task<UserAccountDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            if (id == Guid.Empty) throw new EmptyInputException($"{nameof(id)} is required");
+            Check.For.NullOrEmpty(id, nameof(id));
 
             var userAccount = await _userAccountRepository.GetByIdAsync(id, cancellationToken);
 
-            if (userAccount is null || userAccount.Id == Guid.Empty) throw new NotFoundException("User account not found");
+            Check.For.NotFound(id, userAccount, nameof(userAccount));
 
             return _mapper.Map<UserAccountDto>(userAccount);
         }
 
         public async Task<UserAccountDto> UpdateAsync(UserAccountDto userAccountDto, CancellationToken cancellationToken)
         {
-            if (userAccountDto is null) throw new EmptyInputException($"{nameof(userAccountDto)} is required");
-            if (userAccountDto.Id == Guid.Empty) throw new EmptyInputException($"{nameof(userAccountDto.Id)} is required");
+            Check.For.Null(userAccountDto, nameof(userAccountDto));
+            Check.For.NullOrEmpty(userAccountDto.Id, nameof(userAccountDto.Id));
 
             var userAccount = await _userAccountRepository.GetByIdAsync(userAccountDto.Id, cancellationToken);
-            if (userAccount is null || userAccount.Id != userAccountDto.Id) throw new NotFoundException("User account not found");
+
+            Check.For.NotFound(userAccountDto.Id, userAccount, nameof(userAccount));
 
             _mapper.Map(userAccountDto, userAccount);
             var updatedUserAccount = await _userAccountRepository.UpdateAsync(userAccount, cancellationToken);
@@ -71,11 +72,11 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            if (id == Guid.Empty) throw new EmptyInputException($"{nameof(id)} is required");
+            Check.For.NullOrEmpty(id, nameof(id));
 
             var userAccount = await _userAccountRepository.GetByIdAsync(id, cancellationToken);
 
-            if (userAccount is null) throw new NotFoundException("User account not found");
+            Check.For.NotFound(id, userAccount, nameof(userAccount));
 
             await _userAccountRepository.DeleteByIdAsync(userAccount, cancellationToken);
         }
@@ -93,10 +94,10 @@ namespace RecipeBook.CoreApp.Api.Features.UserAccounts.Services
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (string.IsNullOrWhiteSpace(jwtEncryptionKey)) throw new EmptyInputException($"{nameof(jwtEncryptionKey)} is required");
-            if (authenticationDto is null) throw new EmptyInputException($"{nameof(authenticationDto)} is required");
-            if (string.IsNullOrWhiteSpace(authenticationDto.UserName)) throw new EmptyInputException($"{nameof(authenticationDto.UserName)} is required");
-            if (string.IsNullOrWhiteSpace(authenticationDto.Password)) throw new EmptyInputException($"{nameof(authenticationDto.Password)} is required");
+            Check.For.NullOrEmpty(jwtEncryptionKey, nameof(jwtEncryptionKey));
+            Check.For.Null(authenticationDto, nameof(authenticationDto));
+            Check.For.NullOrEmpty(authenticationDto.UserName, nameof(authenticationDto.UserName));
+            Check.For.NullOrEmpty(authenticationDto.Password, nameof(authenticationDto.Password));
 
             var authenticatedUserAccount = await _userAccountRepository.AuthenticateAsync(authenticationDto.UserName, authenticationDto.Password, cancellationToken);
 

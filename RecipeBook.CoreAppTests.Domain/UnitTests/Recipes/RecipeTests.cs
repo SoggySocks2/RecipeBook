@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using RecipeBook.CoreApp.Domain.Recipes;
 using RecipeBook.CoreAppTests.Shared.Recipes.Builders;
-using RecipeBook.SharedKernel.CustomExceptions;
+using RecipeBook.SharedKernel.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
